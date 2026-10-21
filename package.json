@@ -1,0 +1,10 @@
+{
+  "name": "the-cave-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.cjs",
+    "check": "node --check app.js && node --check cave-world.js",
+    "test": "node test.cjs"
+  }
+}
