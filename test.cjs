@@ -7,7 +7,7 @@ assert(!World.near({x:gate.end.x,y:gate.end.y,w:1,h:1}).some(r=>r.shapes.some(s=
 // Run the app's real input handlers and stroke history using a minimal canvas/DOM double.
 const handlers={},nodes=new Map(),storage={};const context=new Proxy({},{get:()=>()=>{}});
 function element(id){if(nodes.has(id))return nodes.get(id);const n={id,style:{setProperty(){}},dataset:{},classList:{toggle(){},add(){},remove(){}},addEventListener(k,fn){handlers[id+':'+k]=fn;},getContext:()=>context,setPointerCapture(){},append(){},setAttribute(){},click(){this.onclick?.();}};nodes.set(id,n);return n;}
-const env={CaveWorld:World,document:{getElementById:element,createElement:()=>element('temporary'+Math.random()),querySelectorAll:()=>[]},innerWidth:1000,innerHeight:700,devicePixelRatio:1,addEventListener(){},localStorage:{getItem:k=>storage[k]||null,setItem:(k,v)=>storage[k]=v,removeItem:k=>delete storage[k]},location:{reload(){env.didReload=true;}},setTimeout:()=>0,clearTimeout(){},console};vm.createContext(env);vm.runInContext(fs.readFileSync(__dirname+'/app.js','utf8'),env);
+const env={CaveWorld:World,document:{getElementById:element,createElement:()=>element('temporary'+Math.random()),querySelectorAll:()=>[]},innerWidth:1000,innerHeight:700,devicePixelRatio:1,addEventListener(){},localStorage:{getItem:k=>storage[k]||null,setItem:(k,v)=>storage[k]=v,removeItem:k=>delete storage[k]},location:{reload(){env.didReload=true;}},requestAnimationFrame:()=>1,cancelAnimationFrame(){},setTimeout:()=>0,clearTimeout(){},console};vm.createContext(env);vm.runInContext(fs.readFileSync(__dirname+'/app.js','utf8'),env);
 const run=s=>vm.runInContext(s,env);function event(button,x,y){return{button,pointerId:1,clientX:x,clientY:y,preventDefault(){}};}
 handlers['world:pointerdown'](event(2,200,200));assert.equal(run('gesture'),null,'right button must not pan');
 handlers['world:pointerdown'](event(1,200,200));handlers['world:pointermove'](event(1,250,230));handlers['world:pointerup'](event(1,250,230));assert.equal(run('camera.x'),-50/1.5);assert.equal(run('camera.y'),-30/1.5);assert.equal(run('strokes.length'),0);
@@ -50,3 +50,14 @@ handlers['world:pointerup'](touch(12,630,350));handlers['world:pointermove'](tou
 handlers['world:pointerdown'](touch(13,500,350));handlers['world:pointermove'](touch(13,540,370));handlers['world:pointerup'](touch(13,540,370));assert.equal(vm.runInContext('strokes.length',fresh),beforeTouch+1);
 handlers['world:pointerdown'](touch(14,500,350));handlers['world:pointermove'](touch(14,540,370));handlers['world:pointercancel'](touch(14,540,370));assert.equal(vm.runInContext('strokes.length',fresh),beforeTouch+1);assert.equal(vm.runInContext('touches.size',fresh),0);
 console.log('Passed: touch draw, two-finger pan, rollback, release suppression, cancellation.');
+
+// Thumb movement and a painting finger stay independent, including a stationary brush.
+element('movePad').getBoundingClientRect=()=>({left:0,top:0,width:96,height:96});
+handlers['world:pointerdown'](touch(31,500,350));handlers['world:pointermove'](touch(31,525,350));
+const beforePad=vm.runInContext('camera.x',fresh);const previousPoints=vm.runInContext('active.points.length',fresh);
+handlers['movePad:pointerdown'](touch(32,78,48));vm.runInContext('moveWithPad(0);moveWithPad(40)',fresh);
+assert(vm.runInContext('camera.x',fresh)>beforePad);assert(vm.runInContext('active.points.length',fresh)>previousPoints);
+assert(Math.abs(vm.runInContext('active.points.at(-1).x-worldPoint(paintPointer).x',fresh))<.001);
+handlers['movePad:pointerup'](touch(32,78,48));assert.equal(vm.runInContext('padPointer',fresh),null);assert(vm.runInContext('active!==null',fresh));
+handlers['world:pointerup'](touch(31,525,350));assert.equal(vm.runInContext('active',fresh),null);
+console.log('Passed: simultaneous thumb movement and drawing, stationary-brush tracking, independent release.');
