@@ -96,12 +96,40 @@ function finish(){if(active){strokes.push(active);active=null;redo=[];updateUI()
 canvas.addEventListener('mousedown',e=>{if(e.button===1)e.preventDefault();});
 canvas.addEventListener('auxclick',e=>{if(e.button===1)e.preventDefault();});
 canvas.addEventListener('contextmenu',e=>e.preventDefault());canvas.addEventListener('wheel',e=>e.preventDefault(),{passive:false});
-canvas.addEventListener('pointerdown',e=>{if(gesture||![0,1].includes(e.button))return;e.preventDefault();canvas.setPointerCapture(e.pointerId);gesture={id:e.pointerId,x:e.clientX,y:e.clientY,pan:e.button===1||tool==='hand'};if(gesture.pan){canvas.style.cursor='grabbing';$('cursor').style.display='none';return;}const point=worldPoint(e),pickup=pickups.find(p=>!collected.has(p.id)&&Math.hypot(p.x-point.x,p.y-point.y)<35);
+function beginPointer(e){if(gesture||![0,1].includes(e.button))return;e.preventDefault();canvas.setPointerCapture(e.pointerId);gesture={id:e.pointerId,x:e.clientX,y:e.clientY,pan:e.button===1||tool==='hand'};if(gesture.pan){canvas.style.cursor='grabbing';$('cursor').style.display='none';return;}const point=worldPoint(e),pickup=pickups.find(p=>!collected.has(p.id)&&Math.hypot(p.x-point.x,p.y-point.y)<35);
  if(pickup){collected.add(pickup.id);if(pickup.type==='bucket')pigment=colors[pickup.index][1];updateUI();persist();gesture=null;render();return;}
- if(!canPaint()){gesture=null;return;}active={color:pigment,size,erase:tool==='eraser',points:[worldPoint(e)]};const before=new Set(unlocked);segment(active,active.points[0],active.points[0]);announce(before);render();});
+ if(!canPaint()){gesture=null;return;}active={color:pigment,size,erase:tool==='eraser',points:[worldPoint(e)]};const before=new Set(unlocked);segment(active,active.points[0],active.points[0]);announce(before);render();}
 function announce(){updateUI();}
-canvas.addEventListener('pointermove',e=>{const cursor=$('cursor');cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';cursor.style.width=size*VIEW_SCALE+'px';cursor.style.height=size*VIEW_SCALE+'px';cursor.style.display=tool==='hand'||gesture?.pan||!canPaint()?'none':'block';if(!gesture||e.pointerId!==gesture.id)return;if(gesture.pan){camera.x-=(e.clientX-gesture.x)/VIEW_SCALE;camera.y-=(e.clientY-gesture.y)/VIEW_SCALE;gesture.x=e.clientX;gesture.y=e.clientY;}else if(active){const p=worldPoint(e),last=active.points.at(-1);if(Math.hypot(p.x-last.x,p.y-last.y)<1)return;const before=new Set(unlocked);segment(active,last,p);active.points.push(p);announce(before);}render();});
-canvas.addEventListener('pointerup',e=>{if(gesture?.id===e.pointerId)finish();});canvas.addEventListener('pointercancel',finish);canvas.addEventListener('lostpointercapture',finish);canvas.addEventListener('pointerleave',()=>$('cursor').style.display='none');addEventListener('blur',finish);
+function movePointer(e){const cursor=$('cursor');cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';cursor.style.width=size*VIEW_SCALE+'px';cursor.style.height=size*VIEW_SCALE+'px';cursor.style.display=e.pointerType==='touch'||tool==='hand'||gesture?.pan||!canPaint()?'none':'block';if(!gesture||e.pointerId!==gesture.id)return;if(gesture.pan){camera.x-=(e.clientX-gesture.x)/VIEW_SCALE;camera.y-=(e.clientY-gesture.y)/VIEW_SCALE;gesture.x=e.clientX;gesture.y=e.clientY;}else if(active){const p=worldPoint(e),last=active.points.at(-1);if(Math.hypot(p.x-last.x,p.y-last.y)<1)return;const before=new Set(unlocked);segment(active,last,p);active.points.push(p);announce(before);}render();}
+// A second finger switches to pan without leaving an accidental stroke behind.
+const touches=new Map();let touchOrigin=null,touchPanning=false,touchCenter=null;
+function centroid(){const p=[...touches.values()];return{x:p.reduce((n,p)=>n+p.clientX,0)/p.length,y:p.reduce((n,p)=>n+p.clientY,0)/p.length};}
+function discardTouchStroke(){if(active){active=null;gesture=null;rebuild();}else gesture=null;}
+canvas.addEventListener('pointerdown',e=>{
+ if(e.pointerType!=='touch'){beginPointer(e);return;}
+ if(gesture&&touches.size===0)return; // Ignore palm contacts during a pen or mouse stroke.
+ e.preventDefault();canvas.setPointerCapture(e.pointerId);touches.set(e.pointerId,{clientX:e.clientX,clientY:e.clientY});
+ if(touches.size===1&&!touchPanning)touchOrigin={clientX:e.clientX,clientY:e.clientY,pointerId:e.pointerId,pointerType:'touch',button:0,preventDefault(){}};
+ if(touches.size>=2){discardTouchStroke();touchPanning=true;touchCenter=centroid();$('cursor').style.display='none';}
+});
+canvas.addEventListener('pointermove',e=>{
+ if(e.pointerType!=='touch'){movePointer(e);return;}if(!touches.has(e.pointerId))return;e.preventDefault();touches.set(e.pointerId,{clientX:e.clientX,clientY:e.clientY});
+ if(touchPanning){if(touches.size>=2){const center=centroid();if(touchCenter){camera.x-=(center.x-touchCenter.x)/VIEW_SCALE;camera.y-=(center.y-touchCenter.y)/VIEW_SCALE;}touchCenter=center;render();}return;}
+ if(!gesture&&touchOrigin&&Math.hypot(e.clientX-touchOrigin.clientX,e.clientY-touchOrigin.clientY)>6){beginPointer(touchOrigin);touchOrigin=null;}
+ if(gesture)movePointer(e);
+});
+function endPointer(e,cancelled=false){
+ if(e.pointerType!=='touch'){if(gesture?.id===e.pointerId)finish();return;}
+ if(!touches.has(e.pointerId))return;
+ if(!touchPanning){if(cancelled)discardTouchStroke();else{if(touchOrigin)beginPointer(touchOrigin);finish();}}
+ touches.delete(e.pointerId);touchOrigin=null;touchCenter=touches.size>=2?centroid():null;
+ if(!touches.size){touchPanning=false;gesture=null;}$('cursor').style.display='none';
+}
+canvas.addEventListener('pointerup',e=>endPointer(e));
+canvas.addEventListener('pointercancel',e=>endPointer(e,true));
+canvas.addEventListener('lostpointercapture',e=>endPointer(e,true));
+canvas.addEventListener('pointerleave',()=>$('cursor').style.display='none');
+addEventListener('blur',()=>{finish();touches.clear();touchOrigin=null;touchCenter=null;touchPanning=false;});
 function selectTool(t){if(t==='eraser'&&!canPaint())return;tool=t;$('eraser').classList.toggle('active',t==='eraser');$('hand').classList.toggle('active',t==='hand');canvas.style.cursor=t==='hand'?'grab':canPaint()?'none':'crosshair';}
 for(const [index,[name,color]]of colors.entries()){const button=document.createElement('button');button.dataset.index=index;button.dataset.color=color;button.hidden=true;button.title=name+' paint';button.setAttribute('aria-label',name+' pigment');button.style.setProperty('--color',color);button.classList.toggle('active',color===pigment);button.onclick=()=>{if(!hasBrush()||!collected.has('bucket-'+index))return;pigment=color;selectTool('brush');document.querySelectorAll('#palette button').forEach(b=>b.classList.toggle('active',b===button));};$('palette').append(button);}
 document.querySelectorAll('[data-size]').forEach(b=>b.onclick=()=>{size=+b.dataset.size;selectTool('brush');document.querySelectorAll('[data-size]').forEach(x=>x.classList.toggle('active',x===b));});

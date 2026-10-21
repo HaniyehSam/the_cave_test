@@ -38,3 +38,15 @@ assert(vm.runInContext('canPaint()',fresh));assert.equal(element('toast').textCo
 console.log('Passed: distant bucket placement and silent brush/bucket pickup.');
 
 assert.equal(vm.runInContext('bounds().w',fresh),1000/1.5);assert.equal(vm.runInContext('worldPoint({clientX:650,clientY:350}).x',fresh),100);console.log('Passed: fixed 1.5x view and scaled pointer coordinates.');
+// Touch painting, two-finger panning, cancellation, and no stray mark on release.
+function touch(id,x,y){return{...event(0,x,y),pointerId:id,pointerType:'touch'};}
+const beforeTouch=vm.runInContext('strokes.length',fresh);
+handlers['world:pointerdown'](touch(11,500,350));handlers['world:pointermove'](touch(11,530,350));
+assert(vm.runInContext('active!==null',fresh));
+handlers['world:pointerdown'](touch(12,600,350));assert.equal(vm.runInContext('active',fresh),null);
+handlers['world:pointermove'](touch(11,560,350));handlers['world:pointermove'](touch(12,630,350));
+assert.equal(vm.runInContext('camera.x',fresh),-20);assert.equal(vm.runInContext('strokes.length',fresh),beforeTouch);
+handlers['world:pointerup'](touch(12,630,350));handlers['world:pointermove'](touch(11,580,350));handlers['world:pointerup'](touch(11,580,350));assert.equal(vm.runInContext('strokes.length',fresh),beforeTouch);
+handlers['world:pointerdown'](touch(13,500,350));handlers['world:pointermove'](touch(13,540,370));handlers['world:pointerup'](touch(13,540,370));assert.equal(vm.runInContext('strokes.length',fresh),beforeTouch+1);
+handlers['world:pointerdown'](touch(14,500,350));handlers['world:pointermove'](touch(14,540,370));handlers['world:pointercancel'](touch(14,540,370));assert.equal(vm.runInContext('strokes.length',fresh),beforeTouch+1);assert.equal(vm.runInContext('touches.size',fresh),0);
+console.log('Passed: touch draw, two-finger pan, rollback, release suppression, cancellation.');
