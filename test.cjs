@@ -51,13 +51,10 @@ handlers['world:pointerdown'](touch(13,500,350));handlers['world:pointermove'](t
 handlers['world:pointerdown'](touch(14,500,350));handlers['world:pointermove'](touch(14,540,370));handlers['world:pointercancel'](touch(14,540,370));assert.equal(vm.runInContext('strokes.length',fresh),beforeTouch+1);assert.equal(vm.runInContext('touches.size',fresh),0);
 console.log('Passed: touch draw, two-finger pan, rollback, release suppression, cancellation.');
 
-// Thumb movement and a painting finger stay independent, including a stationary brush.
-element('movePad').getBoundingClientRect=()=>({left:0,top:0,width:96,height:96});
-handlers['world:pointerdown'](touch(31,500,350));handlers['world:pointermove'](touch(31,525,350));
-const beforePad=vm.runInContext('camera.x',fresh);const previousPoints=vm.runInContext('active.points.length',fresh);
-handlers['movePad:pointerdown'](touch(32,78,48));vm.runInContext('moveWithPad(0);moveWithPad(40)',fresh);
-assert(vm.runInContext('camera.x',fresh)>beforePad);assert(vm.runInContext('active.points.length',fresh)>previousPoints);
-assert(Math.abs(vm.runInContext('active.points.at(-1).x-worldPoint(paintPointer).x',fresh))<.001);
-handlers['movePad:pointerup'](touch(32,78,48));assert.equal(vm.runInContext('padPointer',fresh),null);assert(vm.runInContext('active!==null',fresh));
-handlers['world:pointerup'](touch(31,525,350));assert.equal(vm.runInContext('active',fresh),null);
-console.log('Passed: simultaneous thumb movement and drawing, stationary-brush tracking, independent release.');
+
+// Wheel panning supports pixels, lines, and Shift for horizontal movement.
+const wheelStart=vm.runInContext('camera.y',fresh);handlers['world:wheel']({deltaX:0,deltaY:90,deltaMode:0,preventDefault(){}});assert.equal(vm.runInContext('camera.y',fresh),wheelStart+60);
+const wheelX=vm.runInContext('camera.x',fresh);handlers['world:wheel']({deltaX:0,deltaY:3,deltaMode:1,shiftKey:true,preventDefault(){}});assert.equal(vm.runInContext('camera.x',fresh),wheelX+32);
+vm.runInContext("selectTool('hand')",fresh);const moves=vm.runInContext('strokes.length',fresh);handlers['world:pointerdown'](touch(41,500,350));handlers['world:pointermove'](touch(41,560,350));handlers['world:pointerup'](touch(41,560,350));assert.equal(vm.runInContext('strokes.length',fresh),moves);
+handlers['world:pointerdown']({...event(0,500,350),pointerType:'pen'});handlers['world:pointermove']({...event(0,530,350),pointerType:'pen'});handlers['world:pointerup']({...event(0,530,350),pointerType:'pen'});assert.equal(vm.runInContext('strokes.length',fresh),moves+1);
+console.log('Passed: wheel/Shift pan, one-finger Move mode, pen drawing while Move selected.');

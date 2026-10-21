@@ -16,4 +16,5 @@ html,body{overscroll-behavior:none;width:100%;height:100%;-webkit-text-size-adju
 }
 @media(pointer:coarse) and (orientation:landscape) and (max-height:550px){.dock{bottom:calc(8px + env(safe-area-inset-bottom));max-width:calc(100vw - 32px);max-height:30dvh}footer{display:none}header button{min-height:40px}}
 
-#movePad{display:none;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}#moveKnob{display:grid;place-items:center;width:42px;height:42px;border:2px solid #111;border-radius:50%;background:#fff;font-size:24px;pointer-events:none}#movePad.moving{background:#fff} @media(pointer:coarse){#movePad{display:flex;align-items:center;justify-content:center;position:fixed;left:max(16px,env(safe-area-inset-left));top:48%;width:96px;height:96px;border:2px solid #111;border-radius:50%;background:#ffffffcf;box-shadow:2px 2px 0 #111;z-index:2}}
+
+.mode-switch{display:flex;border:1px solid #111;border-radius:7px;padding:3px;gap:2px}.dock .mode-switch button.active{background:#111;color:#fff;border-radius:4px}.mode-switch button{min-width:52px}
