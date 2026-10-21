@@ -96,11 +96,12 @@ function finish(){if(active){strokes.push(active);active=null;redo=[];updateUI()
 canvas.addEventListener('mousedown',e=>{if(e.button===1)e.preventDefault();});
 canvas.addEventListener('auxclick',e=>{if(e.button===1)e.preventDefault();});
 canvas.addEventListener('contextmenu',e=>e.preventDefault());canvas.addEventListener('wheel',e=>e.preventDefault(),{passive:false});
+let paintPointer=null;
 function beginPointer(e){if(gesture||![0,1].includes(e.button))return;e.preventDefault();canvas.setPointerCapture(e.pointerId);gesture={id:e.pointerId,x:e.clientX,y:e.clientY,pan:e.button===1||tool==='hand'};if(gesture.pan){canvas.style.cursor='grabbing';$('cursor').style.display='none';return;}const point=worldPoint(e),pickup=pickups.find(p=>!collected.has(p.id)&&Math.hypot(p.x-point.x,p.y-point.y)<35);
  if(pickup){collected.add(pickup.id);if(pickup.type==='bucket')pigment=colors[pickup.index][1];updateUI();persist();gesture=null;render();return;}
- if(!canPaint()){gesture=null;return;}active={color:pigment,size,erase:tool==='eraser',points:[worldPoint(e)]};const before=new Set(unlocked);segment(active,active.points[0],active.points[0]);announce(before);render();}
+ if(!canPaint()){gesture=null;return;}paintPointer={clientX:e.clientX,clientY:e.clientY};active={color:pigment,size,erase:tool==='eraser',points:[worldPoint(e)]};const before=new Set(unlocked);segment(active,active.points[0],active.points[0]);announce(before);render();}
 function announce(){updateUI();}
-function movePointer(e){const cursor=$('cursor');cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';cursor.style.width=size*VIEW_SCALE+'px';cursor.style.height=size*VIEW_SCALE+'px';cursor.style.display=e.pointerType==='touch'||tool==='hand'||gesture?.pan||!canPaint()?'none':'block';if(!gesture||e.pointerId!==gesture.id)return;if(gesture.pan){camera.x-=(e.clientX-gesture.x)/VIEW_SCALE;camera.y-=(e.clientY-gesture.y)/VIEW_SCALE;gesture.x=e.clientX;gesture.y=e.clientY;}else if(active){const p=worldPoint(e),last=active.points.at(-1);if(Math.hypot(p.x-last.x,p.y-last.y)<1)return;const before=new Set(unlocked);segment(active,last,p);active.points.push(p);announce(before);}render();}
+function movePointer(e){const cursor=$('cursor');cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';cursor.style.width=size*VIEW_SCALE+'px';cursor.style.height=size*VIEW_SCALE+'px';cursor.style.display=e.pointerType==='touch'||tool==='hand'||gesture?.pan||!canPaint()?'none':'block';if(!gesture||e.pointerId!==gesture.id)return;if(gesture.pan){camera.x-=(e.clientX-gesture.x)/VIEW_SCALE;camera.y-=(e.clientY-gesture.y)/VIEW_SCALE;gesture.x=e.clientX;gesture.y=e.clientY;}else if(active){paintPointer={clientX:e.clientX,clientY:e.clientY};const p=worldPoint(e),last=active.points.at(-1);if(Math.hypot(p.x-last.x,p.y-last.y)<1)return;const before=new Set(unlocked);segment(active,last,p);active.points.push(p);announce(before);}render();}
 // A second finger switches to pan without leaving an accidental stroke behind.
 const touches=new Map();let touchOrigin=null,touchPanning=false,touchCenter=null;
 function centroid(){const p=[...touches.values()];return{x:p.reduce((n,p)=>n+p.clientX,0)/p.length,y:p.reduce((n,p)=>n+p.clientY,0)/p.length};}
@@ -130,6 +131,21 @@ canvas.addEventListener('pointercancel',e=>endPointer(e,true));
 canvas.addEventListener('lostpointercapture',e=>endPointer(e,true));
 canvas.addEventListener('pointerleave',()=>$('cursor').style.display='none');
 addEventListener('blur',()=>{finish();touches.clear();touchOrigin=null;touchCenter=null;touchPanning=false;});
+// Independent thumb navigation lets a pen/finger continue painting while the camera moves.
+const movePad=$('movePad'),moveKnob=$('moveKnob');
+let padPointer=null,padOrigin=null,padVector={x:0,y:0},padFrame=null,padTime=null;
+function stopPad(){if(padFrame!==null)cancelAnimationFrame(padFrame);padFrame=null;padPointer=null;padTime=null;padVector={x:0,y:0};moveKnob.style.transform='translate(0px,0px)';movePad.classList.remove('moving');}
+function moveWithPad(time){if(padPointer===null)return;const dt=padTime===null?0:Math.min((time-padTime)/1000,.04);padTime=time;
+ camera.x+=padVector.x*320*dt/VIEW_SCALE;camera.y+=padVector.y*320*dt/VIEW_SCALE;
+ if(active&&paintPointer&&dt>0&&(padVector.x||padVector.y)){const point=worldPoint(paintPointer),last=active.points.at(-1);if(Math.hypot(point.x-last.x,point.y-last.y)>=1){segment(active,last,point);active.points.push(point);updateUI();}}
+ render();padFrame=requestAnimationFrame(moveWithPad);
+}
+function steerPad(e){const dx=e.clientX-padOrigin.x,dy=e.clientY-padOrigin.y,d=Math.hypot(dx,dy),limit=30,k=d>limit?limit/d:1;padVector=d<5?{x:0,y:0}:{x:dx*k/limit,y:dy*k/limit};moveKnob.style.transform='translate('+dx*k+'px,'+dy*k+'px)';}
+movePad.addEventListener('pointerdown',e=>{if(padPointer!==null||e.button!==0)return;e.preventDefault();movePad.setPointerCapture(e.pointerId);padPointer=e.pointerId;const rect=movePad.getBoundingClientRect();padOrigin={x:rect.left+rect.width/2,y:rect.top+rect.height/2};steerPad(e);movePad.classList.add('moving');padTime=null;padFrame=requestAnimationFrame(moveWithPad);});
+movePad.addEventListener('pointermove',e=>{if(e.pointerId===padPointer){e.preventDefault();steerPad(e);}});
+for(const name of ['pointerup','pointercancel','lostpointercapture'])movePad.addEventListener(name,e=>{if(e.pointerId===padPointer)stopPad();});
+addEventListener('blur',stopPad);
+for(const id of ['exportOpen','resetOpen'])$(id).addEventListener('click',stopPad);
 function selectTool(t){if(t==='eraser'&&!canPaint())return;tool=t;$('eraser').classList.toggle('active',t==='eraser');$('hand').classList.toggle('active',t==='hand');canvas.style.cursor=t==='hand'?'grab':canPaint()?'none':'crosshair';}
 for(const [index,[name,color]]of colors.entries()){const button=document.createElement('button');button.dataset.index=index;button.dataset.color=color;button.hidden=true;button.title=name+' paint';button.setAttribute('aria-label',name+' pigment');button.style.setProperty('--color',color);button.classList.toggle('active',color===pigment);button.onclick=()=>{if(!hasBrush()||!collected.has('bucket-'+index))return;pigment=color;selectTool('brush');document.querySelectorAll('#palette button').forEach(b=>b.classList.toggle('active',b===button));};$('palette').append(button);}
 document.querySelectorAll('[data-size]').forEach(b=>b.onclick=()=>{size=+b.dataset.size;selectTool('brush');document.querySelectorAll('[data-size]').forEach(x=>x.classList.toggle('active',x===b));});
