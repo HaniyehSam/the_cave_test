@@ -1,0 +1,386 @@
+{
+ "teapot-blue": {
+  "file": "teapot-blue.jpg",
+  "mode": "clip",
+  "crop": [
+   0.08,
+   0.12,
+   0.92,
+   0.9
+  ]
+ },
+ "apple-red": {
+  "file": "apple-red.jpg",
+  "mode": "clip",
+  "crop": [
+   0.12,
+   0.08,
+   0.88,
+   0.72
+  ]
+ },
+ "pear-green": {
+  "file": "pear-green.jpg",
+  "mode": "clip",
+  "crop": [
+   0.06,
+   0.04,
+   0.94,
+   0.92
+  ]
+ },
+ "jar-blue": {
+  "file": "jar-blue.jpg",
+  "mode": "cutout",
+  "tol": 24,
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "cherries": {
+  "file": "cherries.jpg",
+  "mode": "clip",
+  "crop": [
+   0.12,
+   0.12,
+   0.88,
+   0.72
+  ]
+ },
+ "globe": {
+  "file": "globe.jpg",
+  "mode": "cutout",
+  "tol": 24,
+  "crop": [
+   0,
+   0.07,
+   1,
+   1
+  ]
+ },
+ "key": {
+  "file": "key.jpg",
+  "mode": "cutout",
+  "tol": 26,
+  "crop": [
+   0.2,
+   0.02,
+   0.8,
+   0.98
+  ]
+ },
+ "tiny-shoe": {
+  "file": "tiny-shoe.jpg",
+  "mode": "cutout",
+  "tol": 26,
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "pharmacy-jar": {
+  "file": "pharmacy-jar.jpg",
+  "mode": "cutout",
+  "tol": 26,
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "green-clock": {
+  "file": "green-clock.jpg",
+  "crop": [
+   0.15,
+   0.05,
+   0.85,
+   0.95
+  ],
+  "mode": "clip"
+ },
+ "compass-sundial": {
+  "file": "compass-sundial.jpg",
+  "mode": "cutout",
+  "tol": 24,
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "lighthouse": {
+  "file": "lighthouse.jpg",
+  "mode": "clip",
+  "crop": [
+   0.08,
+   0.04,
+   0.92,
+   0.96
+  ]
+ },
+ "shell-plate": {
+  "file": "shell-plate.jpg",
+  "mode": "clip",
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "locomotive": {
+  "file": "locomotive.jpg",
+  "mode": "cutout",
+  "tol": 24,
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "pocket-watch": {
+  "file": "pocket-watch.jpg",
+  "mode": "cutout",
+  "tol": 24,
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "tall-clock": {
+  "file": "tall-clock.jpg",
+  "mode": "cutout",
+  "tol": 26,
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "pigeons": {
+  "file": "pigeons.jpg",
+  "mode": "clip",
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "montgolfier": {
+  "file": "montgolfier.jpg",
+  "mode": "clip",
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "apple-yellow": {
+  "file": "apple-yellow.jpg",
+  "mode": "clip",
+  "crop": [
+   0.3,
+   0.15,
+   0.72,
+   0.85
+  ]
+ },
+ "pear-big": {
+  "file": "pear-big.jpg",
+  "mode": "clip",
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "cherry-branch": {
+  "file": "cherry-branch.jpg",
+  "mode": "clip",
+  "crop": [
+   0.1,
+   0.1,
+   0.9,
+   0.8
+  ]
+ },
+ "wild-turkey": {
+  "file": "wild-turkey.jpg",
+  "mode": "clip",
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "moon": {
+  "file": "moon.jpg",
+  "mode": "cutout",
+  "tol": 24,
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "saturn": {
+  "file": "saturn.jpg",
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ],
+  "mode": "clip"
+ },
+ "earth": {
+  "file": "earth.jpg",
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ],
+  "mode": "disc",
+  "radius": 0.92
+ },
+ "bootprint": {
+  "file": "bootprint.jpg",
+  "mode": "clip",
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "telescope": {
+  "file": "telescope.jpg",
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ],
+  "mode": "clip"
+ },
+ "old-book": {
+  "file": "old-book.jpg",
+  "mode": "cutout",
+  "tol": 24,
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "inkwell": {
+  "file": "inkwell.jpg",
+  "mode": "clip",
+  "crop": [
+   0.15,
+   0.1,
+   0.85,
+   0.9
+  ]
+ },
+ "candlestick": {
+  "file": "candlestick.jpg",
+  "mode": "cutout",
+  "tol": 30,
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "mushroom-chart": {
+  "file": "mushroom-chart.jpg",
+  "mode": "clip",
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "storage-jar": {
+  "file": "storage-jar.jpg",
+  "mode": "clip",
+  "crop": [
+   0.1,
+   0.08,
+   0.9,
+   0.92
+  ]
+ },
+ "bottle": {
+  "file": "bottle.jpg",
+  "mode": "cutout",
+  "tol": 24,
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "jellyfish": {
+  "file": "jellyfish.jpg",
+  "mode": "clip",
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "anemones": {
+  "file": "anemones.jpg",
+  "mode": "clip",
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "starfish": {
+  "file": "starfish.jpg",
+  "mode": "clip",
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "diving-helmet": {
+  "file": "diving-helmet.png",
+  "mode": "clip",
+  "crop": [
+   0,
+   0,
+   1,
+   1
+  ]
+ }
+}

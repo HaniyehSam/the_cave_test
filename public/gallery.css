@@ -1,0 +1,49 @@
+:root {
+  --paper: #f8f7f2;
+  --card: #fffdf8;
+  --ink: #292824;
+  --muted: #77726a;
+  font-family: ui-monospace, 'Cascadia Mono', 'Courier New', monospace;
+  color: var(--ink);
+  background: var(--paper);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--paper) radial-gradient(#c9c4b8 0.8px, transparent 0.8px) 0 0 / 14px 14px;
+}
+.top { max-width: 1100px; margin: 0 auto; padding: 28px 16px 8px; }
+.back { color: inherit; font-size: 12px; }
+h1 { font: 400 clamp(32px, 6vw, 52px) Georgia, serif; margin: 18px 0 6px; }
+#summary, #empty { color: var(--muted); font-size: 12px; }
+#empty { text-align: center; margin: 60px 16px; }
+
+#wall { max-width: 1100px; margin: 0 auto; padding: 18px 16px 60px; columns: 280px; column-gap: 26px; }
+.pin {
+  break-inside: avoid; margin: 0 0 30px; padding: 10px 10px 12px; background: var(--card);
+  box-shadow: 2px 4px 10px #29282422; position: relative; cursor: zoom-in; transform: rotate(var(--turn));
+  transition: transform .25s;
+}
+.pin:hover, .pin:focus-visible { transform: rotate(0) scale(1.02); outline: none; }
+.pin::before, .pin::after {
+  content: ''; position: absolute; top: -9px; width: 64px; height: 20px; background: #eae2cbcc;
+}
+.pin::before { left: 14px; transform: rotate(-8deg); }
+.pin::after { right: 14px; transform: rotate(7deg); }
+.pin img { display: block; width: 100%; height: auto; background: #eee; }
+.pin h2 { font: 400 17px Georgia, serif; margin: 10px 2px 2px; }
+.pin p { margin: 0 2px; font-size: 10px; color: var(--muted); }
+
+dialog {
+  width: min(1000px, calc(100vw - 24px)); max-height: calc(100vh - 24px); padding: 14px; border: 1px solid var(--ink);
+  border-radius: 4px; background: var(--card); color: var(--ink); box-shadow: 5px 7px 0 #29282422;
+}
+dialog::backdrop { background: #29282470; backdrop-filter: blur(3px); }
+#closerImg { display: block; max-width: 100%; max-height: calc(100vh - 200px); margin: 0 auto; }
+.closer-text h2 { font: 400 24px Georgia, serif; margin: 12px 0 4px; }
+.closer-text p { margin: 0; font-size: 11px; color: var(--muted); }
+.row { display: flex; gap: 14px; margin-top: 12px; align-items: center; }
+.row a, .row button { font: 12px ui-monospace, monospace; color: inherit; background: none; border: 0; border-bottom: 1px solid var(--ink); padding: 6px 2px; cursor: pointer; }
+.close { position: absolute; right: 8px; top: 4px; font-size: 24px; background: none; border: 0; cursor: pointer; color: inherit; }
+@media (prefers-reduced-motion: reduce) { .pin { transition: none; } }

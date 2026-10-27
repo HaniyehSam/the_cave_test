@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Photo cutouts</title>
+<style>
+  body { font: 11px ui-monospace, monospace; margin: 10px; background: #f8f7f2; }
+  header { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
+  #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px; }
+  .item { background: #fff; border: 1px solid #ddd; padding: 4px; }
+  .pair { display: flex; gap: 4px; align-items: center; }
+  .pair > * { width: 110px; height: 110px; object-fit: contain; background: repeating-conic-gradient(#eee 0 25%, #fff 0 50%) 0 0 / 12px 12px; }
+  .raw { position: relative; }
+  .raw img { width: 100%; height: 100%; object-fit: contain; }
+  .crop { position: absolute; border: 1px solid #e2725b; }
+  .pair canvas { width: 110px; height: 110px; }
+</style>
+<header><b>Photo cutouts</b><button id="save">Save all to public/photos</button><span id="status"></span></header>
+<div id="grid"></div>
+<script>
+// Each photo becomes either a "cutout" (plain background removed, sticker margin) or a
+// "clip" (a print snipped out with scissors). Settings live in assets-src/photos/cutouts.json.
+const results = new Map();
+
+const load = (src) => new Promise((ok, fail) => { const i = new Image(); i.onload = () => ok(i); i.onerror = fail; i.src = src; });
+const dist = (d, i, r, g, b) => Math.hypot(d[i] - r, d[i + 1] - g, d[i + 2] - b);
+
+function rng(seed) { return () => ((seed = (seed * 16807) % 2147483647) / 2147483647); }
+
+// Crop and scale the source so its longest side is `max` pixels.
+function source(img, s) {
+  const [x0, y0, x1, y1] = s.crop || [0, 0, 1, 1];
+  const sw = (x1 - x0) * img.width, sh = (y1 - y0) * img.height, k = Math.min(1, (s.max || 520) / Math.max(sw, sh));
+  const c = document.createElement('canvas');
+  c.width = Math.round(sw * k); c.height = Math.round(sh * k);
+  c.getContext('2d').drawImage(img, x0 * img.width, y0 * img.height, sw, sh, 0, 0, c.width, c.height);
+  return c;
+}
+
+// Region-grow the background inwards from the border, following gentle gradients.
+function objectMask(c, tol) {
+  const w = c.width, h = c.height, d = c.getContext('2d').getImageData(0, 0, w, h).data;
+  const border = [];
+  for (let x = 0; x < w; x++) border.push(x, (h - 1) * w + x);
+  for (let y = 0; y < h; y++) border.push(y * w, y * w + w - 1);
+  const sorted = (k) => border.map((p) => d[p * 4 + k]).sort((a, b) => a - b)[border.length >> 1];
+  const bg = [sorted(0), sorted(1), sorted(2)];
+  const isBg = new Uint8Array(w * h), queue = [];
+  for (const p of border) if (dist(d, p * 4, ...bg) < tol * 1.6) { isBg[p] = 1; queue.push(p); }
+  while (queue.length) {
+    const p = queue.pop(), x = p % w, y = (p / w) | 0;
+    for (const [nx, ny] of [[x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1]]) {
+      if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+      const n = ny * w + nx;
+      if (isBg[n]) continue;
+      // Museum backdrops are radial gradients: follow small steps, allow a large total drift.
+      if (dist(d, n * 4, d[p * 4], d[p * 4 + 1], d[p * 4 + 2]) < tol / 3 && dist(d, n * 4, ...bg) < tol * 8) {
+        isBg[n] = 1;
+        queue.push(n);
+      }
+    }
+  }
+  const m = document.createElement('canvas');
+  m.width = w; m.height = h;
+  const mc = m.getContext('2d'), img = mc.createImageData(w, h);
+  for (let i = 0; i < w * h; i++) img.data[i * 4 + 3] = isBg[i] ? 0 : 255;
+  mc.putImageData(img, 0, 0);
+  // Soften the edge a touch.
+  const soft = document.createElement('canvas');
+  soft.width = w; soft.height = h;
+  const sc = soft.getContext('2d');
+  sc.filter = 'blur(0.8px)';
+  sc.drawImage(m, 0, 0);
+  return soft;
+}
+
+// Planets: a circle centred in the (cropped) picture.
+function discMask(c, radius) {
+  const m = document.createElement('canvas');
+  m.width = c.width; m.height = c.height;
+  const x = m.getContext('2d');
+  x.fillStyle = '#000';
+  x.beginPath();
+  x.arc(c.width / 2, c.height / 2, (Math.min(c.width, c.height) / 2) * radius, 0, Math.PI * 2);
+  x.fill();
+  return m;
+}
+
+// A white sticker margin: the mask stamped around a circle of offsets.
+function margin(mask, r, seed) {
+  const c = document.createElement('canvas');
+  c.width = mask.width + r * 2; c.height = mask.height + r * 2;
+  const x = c.getContext('2d'), rand = rng(seed);
+  for (let a = 0; a < 24; a++) {
+    const t = (a / 24) * Math.PI * 2, rr = r * (0.8 + rand() * 0.2);
+    x.drawImage(mask, r + Math.cos(t) * rr, r + Math.sin(t) * rr);
+  }
+  x.globalCompositeOperation = 'source-in';
+  x.fillStyle = '#fdfbf4';
+  x.fillRect(0, 0, c.width, c.height);
+  return c;
+}
+
+// A scissor-cut polygon round the whole picture.
+function snip(w, h, seed) {
+  const rand = rng(seed), pts = [], step = 22, j = 3.2;
+  const edge = (x0, y0, x1, y1) => {
+    const n = Math.max(2, Math.round(Math.hypot(x1 - x0, y1 - y0) / step));
+    for (let i = 0; i < n; i++) pts.push([x0 + ((x1 - x0) * i) / n + (rand() - 0.5) * j, y0 + ((y1 - y0) * i) / n + (rand() - 0.5) * j]);
+  };
+  edge(4, 4, w - 4, 4); edge(w - 4, 4, w - 4, h - 4); edge(w - 4, h - 4, 4, h - 4); edge(4, h - 4, 4, 4);
+  return pts;
+}
+
+function render(name, img, s) {
+  const src = source(img, s), seed = [...name].reduce((a, ch) => a * 31 + ch.charCodeAt(0), 7) % 2147483646 + 1;
+  const pad = 10, r = s.margin ?? 7;
+  let out;
+  if (s.mode === 'cutout' || s.mode === 'disc') {
+    const mask = s.mode === 'disc' ? discMask(src, s.radius ?? 0.985) : objectMask(src, s.tol ?? 24), sticker = margin(mask, r, seed);
+    out = document.createElement('canvas');
+    out.width = sticker.width + pad * 2; out.height = sticker.height + pad * 2;
+    const x = out.getContext('2d');
+    x.shadowColor = 'rgba(41,40,36,.28)'; x.shadowBlur = 6; x.shadowOffsetX = 2; x.shadowOffsetY = 3;
+    x.drawImage(sticker, pad, pad);
+    x.shadowColor = 'transparent';
+    const obj = document.createElement('canvas');
+    obj.width = src.width; obj.height = src.height;
+    const oc = obj.getContext('2d');
+    oc.drawImage(mask, 0, 0);
+    oc.globalCompositeOperation = 'source-in';
+    oc.drawImage(src, 0, 0);
+    x.drawImage(obj, pad + r, pad + r);
+  } else {
+    out = document.createElement('canvas');
+    out.width = src.width + pad * 2; out.height = src.height + pad * 2;
+    const x = out.getContext('2d'), pts = snip(src.width, src.height, seed);
+    x.translate(pad, pad);
+    x.beginPath();
+    pts.forEach(([px, py], i) => (i ? x.lineTo(px, py) : x.moveTo(px, py)));
+    x.closePath();
+    x.shadowColor = 'rgba(41,40,36,.28)'; x.shadowBlur = 6; x.shadowOffsetX = 2; x.shadowOffsetY = 3;
+    x.fillStyle = '#fdfbf4';
+    x.fill();
+    x.shadowColor = 'transparent';
+    x.clip();
+    x.drawImage(src, 0, 0);
+  }
+  return out;
+}
+
+async function main() {
+  const settings = await (await fetch('settings.json')).json();
+  const grid = document.getElementById('grid');
+  for (const [name, s] of Object.entries(settings)) {
+    const img = await load(`raw/${s.file}`);
+    const out = render(name, img, s);
+    results.set(name, out);
+    const item = document.createElement('div');
+    item.className = 'item';
+    const [x0, y0, x1, y1] = s.crop || [0, 0, 1, 1];
+    item.innerHTML = `<div class="pair"><div class="raw"><img src="raw/${s.file}"></div></div><div>${name} · ${s.mode}${s.mode === 'cutout' ? ' tol ' + (s.tol ?? 24) : ''} · ${out.width}×${out.height}</div>`;
+    const raw = item.querySelector('.raw'), k = Math.min(110 / img.width, 110 / img.height);
+    const crop = document.createElement('div');
+    crop.className = 'crop';
+    Object.assign(crop.style, { left: `${(110 - img.width * k) / 2 + x0 * img.width * k}px`, top: `${(110 - img.height * k) / 2 + y0 * img.height * k}px`, width: `${(x1 - x0) * img.width * k}px`, height: `${(y1 - y0) * img.height * k}px` });
+    raw.append(crop);
+    item.querySelector('.pair').append(out);
+    grid.append(item);
+  }
+  document.getElementById('status').textContent = `${results.size} ready`;
+  await reviewSheet();
+}
+
+// Every result on one labelled sheet, over paper, the way it will look in the world.
+async function reviewSheet() {
+  const cell = 200, cols = 8, rows = Math.ceil(results.size / cols);
+  const c = document.createElement('canvas');
+  c.width = cols * cell; c.height = rows * cell;
+  const x = c.getContext('2d');
+  x.fillStyle = '#f8f7f2';
+  x.fillRect(0, 0, c.width, c.height);
+  let i = 0;
+  for (const [name, out] of results) {
+    const cx = (i % cols) * cell, cy = Math.floor(i / cols) * cell, k = Math.min((cell - 24) / out.width, (cell - 24) / out.height);
+    x.globalCompositeOperation = 'multiply';
+    x.drawImage(out, cx + (cell - out.width * k) / 2, cy + 4 + (cell - 24 - out.height * k) / 2, out.width * k, out.height * k);
+    x.globalCompositeOperation = 'source-over';
+    x.fillStyle = '#292824';
+    x.font = '12px monospace';
+    x.fillText(name, cx + 6, cy + cell - 6);
+    i++;
+  }
+  const blob = await new Promise((r) => c.toBlob(r, 'image/png'));
+  await fetch('review', { method: 'POST', body: blob });
+}
+
+document.getElementById('save').onclick = async () => {
+  let n = 0, bytes = 0;
+  for (const [name, c] of results) {
+    const blob = await new Promise((r) => c.toBlob(r, 'image/webp', 0.84));
+    const res = await (await fetch(`save/${name}.webp`, { method: 'POST', body: blob })).json();
+    bytes += res.bytes;
+    document.getElementById('status').textContent = `saved ${++n} / ${results.size} (${Math.round(bytes / 1024)} KB)`;
+  }
+};
+main();
+</script>
+</html>

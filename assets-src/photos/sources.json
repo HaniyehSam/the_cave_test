@@ -1,0 +1,594 @@
+[
+ {
+  "name": "teapot-blue",
+  "zone": "Paper Street",
+  "source": "Cleveland Museum of Art",
+  "title": "Teapot with Begonias",
+  "date": "1897–1914",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/2022.168/2022.168_web.jpg",
+  "page": "https://clevelandart.org/art/2022.168",
+  "size": {
+   "ok": true,
+   "bytes": 148633,
+   "type": "image/jpeg"
+  },
+  "file": "teapot-blue.jpg"
+ },
+ {
+  "name": "apple-red",
+  "zone": "Night Market",
+  "source": "Wikimedia Commons",
+  "title": "Pomological Watercolor POM00000185.jpg",
+  "licence": "Public domain",
+  "artist": "Royal Charles Steadman",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/Pomological_Watercolor_POM00000185.jpg/960px-Pomological_Watercolor_POM00000185.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "page": "https://commons.wikimedia.org/wiki/File:Pomological_Watercolor_POM00000185.jpg",
+  "size": {
+   "ok": true,
+   "bytes": 228485,
+   "type": "image/jpeg"
+  },
+  "file": "apple-red.jpg"
+ },
+ {
+  "name": "pear-green",
+  "zone": "Night Market",
+  "source": "Wikimedia Commons",
+  "title": "Pomological Watercolor POM00006907.jpg",
+  "licence": "Public domain",
+  "artist": "Schutt, Ellen Isham, 1873-1955",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/Pomological_Watercolor_POM00006907.jpg/960px-Pomological_Watercolor_POM00006907.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "page": "https://commons.wikimedia.org/wiki/File:Pomological_Watercolor_POM00006907.jpg",
+  "size": {
+   "ok": true,
+   "bytes": 295711,
+   "type": "image/jpeg"
+  },
+  "file": "pear-green.jpg"
+ },
+ {
+  "name": "jar-blue",
+  "zone": "Night Market",
+  "source": "Cleveland Museum of Art",
+  "title": "Jar",
+  "date": "1522–66",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/1917.13/1917.13_web.jpg",
+  "page": "https://clevelandart.org/art/1917.13",
+  "size": {
+   "ok": true,
+   "bytes": 130640,
+   "type": "image/jpeg"
+  },
+  "file": "jar-blue.jpg"
+ },
+ {
+  "name": "cherries",
+  "zone": "Odd Greenhouse",
+  "source": "Wikimedia Commons",
+  "title": "Pomological Watercolor POM00004708.jpg",
+  "licence": "Public domain",
+  "artist": "Thompson, Harriet L.",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d2/Pomological_Watercolor_POM00004708.jpg/960px-Pomological_Watercolor_POM00004708.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "page": "https://commons.wikimedia.org/wiki/File:Pomological_Watercolor_POM00004708.jpg",
+  "size": {
+   "ok": true,
+   "bytes": 307958,
+   "type": "image/jpeg"
+  },
+  "file": "cherries.jpg"
+ },
+ {
+  "name": "globe",
+  "zone": "Cabinet of Curiosities",
+  "source": "Cleveland Museum of Art",
+  "title": "Globe Work Table (Globustisch)",
+  "date": "c. 1810–15",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/2020.199/2020.199_web.jpg",
+  "page": "https://clevelandart.org/art/2020.199",
+  "size": {
+   "ok": true,
+   "bytes": 162643,
+   "type": "image/jpeg"
+  },
+  "file": "globe.jpg"
+ },
+ {
+  "name": "key",
+  "zone": "Cabinet of Curiosities",
+  "source": "Cleveland Museum of Art",
+  "title": "Key",
+  "date": "1–100 CE",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/1952.586/1952.586_web.jpg",
+  "page": "https://clevelandart.org/art/1952.586",
+  "size": {
+   "ok": true,
+   "bytes": 234810,
+   "type": "image/jpeg"
+  },
+  "file": "key.jpg"
+ },
+ {
+  "name": "tiny-shoe",
+  "zone": "Cabinet of Curiosities",
+  "source": "Cleveland Museum of Art",
+  "title": "Miniature Shoe",
+  "date": "c. 1895–1900",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/1966.482/1966.482_web.jpg",
+  "page": "https://clevelandart.org/art/1966.482",
+  "size": {
+   "ok": true,
+   "bytes": 411675,
+   "type": "image/jpeg"
+  },
+  "file": "tiny-shoe.jpg"
+ },
+ {
+  "name": "pharmacy-jar",
+  "zone": "Cabinet of Curiosities",
+  "source": "Cleveland Museum of Art",
+  "title": "Pharmacy Jar (Albarello)",
+  "date": "c. 1510",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/1965.553/1965.553_web.jpg",
+  "page": "https://clevelandart.org/art/1965.553",
+  "size": {
+   "ok": true,
+   "bytes": 400791,
+   "type": "image/jpeg"
+  },
+  "file": "pharmacy-jar.jpg"
+ },
+ {
+  "name": "green-clock",
+  "zone": "Cabinet of Curiosities",
+  "source": "Cleveland Museum of Art",
+  "title": "Clock",
+  "date": "1908–17",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/1966.475/1966.475_web.jpg",
+  "page": "https://clevelandart.org/art/1966.475",
+  "size": {
+   "ok": true,
+   "bytes": 281502,
+   "type": "image/jpeg"
+  },
+  "file": "green-clock.jpg"
+ },
+ {
+  "name": "compass-sundial",
+  "zone": "Cabinet of Curiosities",
+  "source": "Cleveland Museum of Art",
+  "title": "Compass and Sun Dial",
+  "date": "1700–1750",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/1916.358/1916.358_web.jpg",
+  "page": "https://clevelandart.org/art/1916.358",
+  "size": {
+   "ok": true,
+   "bytes": 503408,
+   "type": "image/jpeg"
+  },
+  "file": "compass-sundial.jpg"
+ },
+ {
+  "name": "lighthouse",
+  "zone": "Harbour",
+  "source": "Wikimedia Commons",
+  "title": "Eddystone Lighthouse, Plymouth, England-LCCN2002708052.jpg",
+  "licence": "Public domain",
+  "artist": "\nPhotochrom Print Collection",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/Eddystone_Lighthouse%2C_Plymouth%2C_England-LCCN2002708052.jpg/960px-Eddystone_Lighthouse%2C_Plymouth%2C_England-LCCN2002708052.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "page": "https://commons.wikimedia.org/wiki/File:Eddystone_Lighthouse,_Plymouth,_England-LCCN2002708052.jpg",
+  "size": {
+   "ok": true,
+   "bytes": 268922,
+   "type": "image/jpeg"
+  },
+  "file": "lighthouse.jpg"
+ },
+ {
+  "name": "shell-plate",
+  "zone": "Harbour",
+  "source": "Wikimedia Commons",
+  "title": "British conchology, or, An account of the Mollusca which now inhabit the British Isles and the surrounding seas (1862) (14591231439).jpg",
+  "licence": "No restrictions",
+  "artist": "Internet Archive Book Images",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/British_conchology%2C_or%2C_An_account_of_the_Mollusca_which_now_inhabit_the_British_Isles_and_the_surrounding_seas_%281862%29_%2814591231439%29.jpg/960px-British_conchology%2C_or%2C_An_account_of_the_Mollusca_which_now_inhabit_the_British_Isles_and_the_surrounding_seas_%281862%29_%2814591231439%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "page": "https://commons.wikimedia.org/wiki/File:British_conchology,_or,_An_account_of_the_Mollusca_which_now_inhabit_the_British_Isles_and_the_surrounding_seas_(1862)_(14591231439).jpg",
+  "size": {
+   "ok": true,
+   "bytes": 366292,
+   "type": "image/jpeg"
+  },
+  "file": "shell-plate.jpg"
+ },
+ {
+  "name": "locomotive",
+  "zone": "Midnight Station",
+  "source": "Wikimedia Commons",
+  "title": "Taiwan Railway Steam Locomotive Class B6.jpg",
+  "licence": "Public domain",
+  "artist": "Unknown authorUnknown author",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a1/Taiwan_Railway_Steam_Locomotive_Class_B6.jpg/960px-Taiwan_Railway_Steam_Locomotive_Class_B6.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "page": "https://commons.wikimedia.org/wiki/File:Taiwan_Railway_Steam_Locomotive_Class_B6.jpg",
+  "size": {
+   "ok": true,
+   "bytes": 90917,
+   "type": "image/jpeg"
+  },
+  "file": "locomotive.jpg"
+ },
+ {
+  "name": "pocket-watch",
+  "zone": "Midnight Station",
+  "source": "Wikimedia Commons",
+  "title": "Pocket Watch-saam 1929.8.245.54.jpg",
+  "licence": "CC0",
+  "artist": "",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/Pocket_Watch-saam_1929.8.245.54.jpg/960px-Pocket_Watch-saam_1929.8.245.54.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "page": "https://commons.wikimedia.org/wiki/File:Pocket_Watch-saam_1929.8.245.54.jpg",
+  "size": {
+   "ok": true,
+   "bytes": 160478,
+   "type": "image/jpeg"
+  },
+  "file": "pocket-watch.jpg"
+ },
+ {
+  "name": "tall-clock",
+  "zone": "Midnight Station",
+  "source": "Cleveland Museum of Art",
+  "title": "Tall Clock",
+  "date": "c. 1880",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/1992.70/1992.70_web.jpg",
+  "page": "https://clevelandart.org/art/1992.70",
+  "size": {
+   "ok": true,
+   "bytes": 234508,
+   "type": "image/jpeg"
+  },
+  "file": "tall-clock.jpg"
+ },
+ {
+  "name": "pigeons",
+  "zone": "Rooftops",
+  "source": "Wikimedia Commons",
+  "title": "Robert Havell after John James Audubon, Passenger Pigeon, 1829, NGA 32203.jpg",
+  "licence": "CC0",
+  "artist": "\nRobert Havell after John James Audubon",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Robert_Havell_after_John_James_Audubon%2C_Passenger_Pigeon%2C_1829%2C_NGA_32203.jpg/960px-Robert_Havell_after_John_James_Audubon%2C_Passenger_Pigeon%2C_1829%2C_NGA_32203.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "page": "https://commons.wikimedia.org/wiki/File:Robert_Havell_after_John_James_Audubon,_Passenger_Pigeon,_1829,_NGA_32203.jpg",
+  "size": {
+   "ok": true,
+   "bytes": 209287,
+   "type": "image/jpeg"
+  },
+  "file": "pigeons.jpg"
+ },
+ {
+  "name": "montgolfier",
+  "zone": "Rooftops",
+  "source": "Wikimedia Commons",
+  "title": "First Montgolfier brothers balloon - DPLA - 4efbcd3f9c538e38981d8acf2f0dab90.jpg",
+  "licence": "Public domain",
+  "artist": "Molynk, A",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/61/First_Montgolfier_brothers_balloon_-_DPLA_-_4efbcd3f9c538e38981d8acf2f0dab90.jpg/960px-First_Montgolfier_brothers_balloon_-_DPLA_-_4efbcd3f9c538e38981d8acf2f0dab90.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "page": "https://commons.wikimedia.org/wiki/File:First_Montgolfier_brothers_balloon_-_DPLA_-_4efbcd3f9c538e38981d8acf2f0dab90.jpg",
+  "size": {
+   "ok": true,
+   "bytes": 375814,
+   "type": "image/jpeg"
+  },
+  "file": "montgolfier.jpg"
+ },
+ {
+  "name": "apple-yellow",
+  "zone": "Cloud Orchard",
+  "source": "Wikimedia Commons",
+  "title": "Pomological Watercolor POM00000153.jpg",
+  "licence": "Public domain",
+  "artist": "J. Marion Shull",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1d/Pomological_Watercolor_POM00000153.jpg/960px-Pomological_Watercolor_POM00000153.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "page": "https://commons.wikimedia.org/wiki/File:Pomological_Watercolor_POM00000153.jpg",
+  "size": {
+   "ok": true,
+   "bytes": 121041,
+   "type": "image/jpeg"
+  },
+  "file": "apple-yellow.jpg"
+ },
+ {
+  "name": "pear-big",
+  "zone": "Cloud Orchard",
+  "source": "Wikimedia Commons",
+  "title": "Belle Angevine Pear in 8 December 1900 Pomological Watercolor POM00006761 (cropped).jpg",
+  "licence": "Public domain",
+  "artist": "Passmore, Deborah Griscom, 1840-1911",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/Belle_Angevine_Pear_in_8_December_1900_Pomological_Watercolor_POM00006761_%28cropped%29.jpg/960px-Belle_Angevine_Pear_in_8_December_1900_Pomological_Watercolor_POM00006761_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "page": "https://commons.wikimedia.org/wiki/File:Belle_Angevine_Pear_in_8_December_1900_Pomological_Watercolor_POM00006761_(cropped).jpg",
+  "size": {
+   "ok": true,
+   "bytes": 603907,
+   "type": "image/jpeg"
+  },
+  "file": "pear-big.jpg"
+ },
+ {
+  "name": "cherry-branch",
+  "zone": "Cloud Orchard",
+  "source": "Wikimedia Commons",
+  "title": "Pomological Watercolor POM00004436.jpg",
+  "licence": "Public domain",
+  "artist": "Thompson, Harriet L.",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Pomological_Watercolor_POM00004436.jpg/960px-Pomological_Watercolor_POM00004436.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "page": "https://commons.wikimedia.org/wiki/File:Pomological_Watercolor_POM00004436.jpg",
+  "size": {
+   "ok": true,
+   "bytes": 301145,
+   "type": "image/jpeg"
+  },
+  "file": "cherry-branch.jpg"
+ },
+ {
+  "name": "wild-turkey",
+  "zone": "Cloud Orchard",
+  "source": "Wikimedia Commons",
+  "title": "The birds of America. (Livraison) 1, Plate I, Great American Cock Male ; Vulgo Wild Turkey - estampe - Drawn by J. J. Audubon ; Engraved by W. H. Lizars Edin.r - btv1b53144013v.jpg",
+  "licence": "Public domain",
+  "artist": "\nAudubon, John James (1785-1851). Dessinateur du modèle\n\nLiz",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/The_birds_of_America._%28Livraison%29_1%2C_Plate_I%2C_Great_American_Cock_Male_%3B_Vulgo_Wild_Turkey_-_estampe_-_Drawn_by_J._J._Audubon_%3B_Engraved_by_W._H._Lizars_Edin.r_-_btv1b53144013v.jpg/960px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "page": "https://commons.wikimedia.org/wiki/File:The_birds_of_America._(Livraison)_1,_Plate_I,_Great_American_Cock_Male_;_Vulgo_Wild_Turkey_-_estampe_-_Drawn_by_J._J._Audubon_;_Engraved_by_W._H._Lizars_Edin.r_-_btv1b53144013v.jpg",
+  "size": {
+   "ok": true,
+   "bytes": 392024,
+   "type": "image/jpeg"
+  },
+  "file": "wild-turkey.jpg"
+ },
+ {
+  "name": "moon",
+  "zone": "Observatory",
+  "source": "NASA (GSFC)",
+  "title": "Full Moon",
+  "licence": "Public domain (NASA)",
+  "credit": "",
+  "url": "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e000868/GSFC_20171208_Archive_e000868~medium.jpg",
+  "page": "https://images.nasa.gov/details/GSFC_20171208_Archive_e000868",
+  "size": {
+   "ok": true,
+   "bytes": 162909,
+   "type": "image/jpeg"
+  },
+  "file": "moon.jpg"
+ },
+ {
+  "name": "saturn",
+  "zone": "Observatory",
+  "source": "NASA (JPL)",
+  "title": "Saturn from Far and Near Cassini-Huygens",
+  "licence": "Public domain (NASA)",
+  "credit": "NASA/JPL",
+  "url": "https://images-assets.nasa.gov/image/PIA05983/PIA05983~small.jpg",
+  "page": "https://images.nasa.gov/details/PIA05983",
+  "size": {
+   "ok": true,
+   "bytes": 21165,
+   "type": "image/jpeg"
+  },
+  "file": "saturn.jpg"
+ },
+ {
+  "name": "earth",
+  "zone": "Observatory",
+  "source": "NASA (GSFC)",
+  "title": "NASA Blue Marble 2007 West",
+  "licence": "Public domain (NASA)",
+  "credit": "",
+  "url": "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e002131/GSFC_20171208_Archive_e002131~medium.jpg",
+  "page": "https://images.nasa.gov/details/GSFC_20171208_Archive_e002131",
+  "size": {
+   "ok": true,
+   "bytes": 218925,
+   "type": "image/jpeg"
+  },
+  "file": "earth.jpg"
+ },
+ {
+  "name": "bootprint",
+  "zone": "Observatory",
+  "source": "NASA (MSFC)",
+  "title": "Saturn Apollo Program",
+  "licence": "Public domain (NASA)",
+  "credit": "",
+  "url": "https://images-assets.nasa.gov/image/6901250/6901250~medium.jpg",
+  "page": "https://images.nasa.gov/details/6901250",
+  "size": {
+   "ok": true,
+   "bytes": 306162,
+   "type": "image/jpeg"
+  },
+  "file": "bootprint.jpg"
+ },
+ {
+  "name": "telescope",
+  "zone": "Observatory",
+  "source": "Wikimedia Commons",
+  "title": "Binocular telescope, by Jan and Harmanus van Deijl.JPG",
+  "licence": "CC0",
+  "artist": "AlfvanBeem",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Binocular_telescope%2C_by_Jan_and_Harmanus_van_Deijl.JPG/960px-Binocular_telescope%2C_by_Jan_and_Harmanus_van_Deijl.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "page": "https://commons.wikimedia.org/wiki/File:Binocular_telescope,_by_Jan_and_Harmanus_van_Deijl.JPG",
+  "size": {
+   "ok": true,
+   "bytes": 373882,
+   "type": "image/jpeg"
+  },
+  "file": "telescope.jpg"
+ },
+ {
+  "name": "old-book",
+  "zone": "Sunken Library",
+  "source": "Cleveland Museum of Art",
+  "title": "Gospel Book with Commentaries",
+  "date": "c. 1000–1100",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/1942.152/1942.152_web.jpg",
+  "page": "https://clevelandart.org/art/1942.152",
+  "size": {
+   "ok": true,
+   "bytes": 235786,
+   "type": "image/jpeg"
+  },
+  "file": "old-book.jpg"
+ },
+ {
+  "name": "inkwell",
+  "zone": "Sunken Library",
+  "source": "Cleveland Museum of Art",
+  "title": "Inkwell",
+  "date": "c. 1899 ",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/2008.64/2008.64_web.jpg",
+  "page": "https://clevelandart.org/art/2008.64",
+  "size": {
+   "ok": true,
+   "bytes": 269070,
+   "type": "image/jpeg"
+  },
+  "file": "inkwell.jpg"
+ },
+ {
+  "name": "candlestick",
+  "zone": "Sunken Library",
+  "source": "Cleveland Museum of Art",
+  "title": "Paschal Candlestick",
+  "date": "c. 1525–1550",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/1942.802/1942.802_web.jpg",
+  "page": "https://clevelandart.org/art/1942.802",
+  "size": {
+   "ok": true,
+   "bytes": 48588,
+   "type": "image/jpeg"
+  },
+  "file": "candlestick.jpg"
+ },
+ {
+  "name": "mushroom-chart",
+  "zone": "Root Cellar",
+  "source": "Wikimedia Commons",
+  "title": "Adolphe Millot champignon.jpg",
+  "licence": "Public domain",
+  "artist": "Adolphe Millot",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/Adolphe_Millot_champignon.jpg/960px-Adolphe_Millot_champignon.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "page": "https://commons.wikimedia.org/wiki/File:Adolphe_Millot_champignon.jpg",
+  "size": {
+   "ok": true,
+   "bytes": 453493,
+   "type": "image/jpeg"
+  },
+  "file": "mushroom-chart.jpg"
+ },
+ {
+  "name": "storage-jar",
+  "zone": "Root Cellar",
+  "source": "Cleveland Museum of Art",
+  "title": "Jar",
+  "date": "1700s",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/1983.28/1983.28_web.jpg",
+  "page": "https://clevelandart.org/art/1983.28",
+  "size": {
+   "ok": true,
+   "bytes": 52541,
+   "type": "image/jpeg"
+  },
+  "file": "storage-jar.jpg"
+ },
+ {
+  "name": "bottle",
+  "zone": "Root Cellar",
+  "source": "Cleveland Museum of Art",
+  "title": "Long-necked Bottle with Incised Floral Design",
+  "date": "1100s–1200s",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/1921.622/1921.622_web.jpg",
+  "page": "https://clevelandart.org/art/1921.622",
+  "size": {
+   "ok": true,
+   "bytes": 51845,
+   "type": "image/jpeg"
+  },
+  "file": "bottle.jpg"
+ },
+ {
+  "name": "jellyfish",
+  "zone": "Sea Floor",
+  "source": "Wikimedia Commons",
+  "title": "Haeckel Discomedusae 8.jpg",
+  "licence": "Public domain",
+  "artist": "Original: Ernst Haeckel. Scan: Ragesoss. Cleanup: Ilmari Kar",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Haeckel_Discomedusae_8.jpg/960px-Haeckel_Discomedusae_8.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "page": "https://commons.wikimedia.org/wiki/File:Haeckel_Discomedusae_8.jpg",
+  "size": {
+   "ok": true,
+   "bytes": 680663,
+   "type": "image/jpeg"
+  },
+  "file": "jellyfish.jpg"
+ },
+ {
+  "name": "anemones",
+  "zone": "Sea Floor",
+  "source": "Wikimedia Commons",
+  "title": "Haeckel Actiniae.jpg",
+  "licence": "Public domain",
+  "artist": "Ernst Haeckel",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a9/Haeckel_Actiniae.jpg/960px-Haeckel_Actiniae.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "page": "https://commons.wikimedia.org/wiki/File:Haeckel_Actiniae.jpg",
+  "size": {
+   "ok": true,
+   "bytes": 600364,
+   "type": "image/jpeg"
+  },
+  "file": "anemones.jpg"
+ },
+ {
+  "name": "starfish",
+  "zone": "Sea Floor",
+  "source": "Wikimedia Commons",
+  "title": "Nature neighbors (Plate 501) (6276924246).jpg",
+  "licence": "Public domain",
+  "artist": "Abbott, Gerard Alan.; Banta, Nathaniel Moore; Higley, Willia",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/Nature_neighbors_%28Plate_501%29_%286276924246%29.jpg/960px-Nature_neighbors_%28Plate_501%29_%286276924246%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "page": "https://commons.wikimedia.org/wiki/File:Nature_neighbors_(Plate_501)_(6276924246).jpg",
+  "size": {
+   "ok": true,
+   "bytes": 265034,
+   "type": "image/jpeg"
+  },
+  "file": "starfish.jpg"
+ },
+ {
+  "name": "diving-helmet",
+  "zone": "Sea Floor",
+  "source": "Wikimedia Commons",
+  "title": "Diving helmet Nautical Magazine 1832 386.png",
+  "licence": "Public domain",
+  "artist": "Not stated",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Diving_helmet_Nautical_Magazine_1832_386.png/960px-Diving_helmet_Nautical_Magazine_1832_386.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "page": "https://commons.wikimedia.org/wiki/File:Diving_helmet_Nautical_Magazine_1832_386.png",
+  "size": {
+   "ok": true,
+   "bytes": 109015,
+   "type": "image/png"
+  },
+  "file": "diving-helmet.png"
+ }
+]

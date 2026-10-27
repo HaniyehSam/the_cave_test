@@ -1,10 +1,11 @@
 {
-  "name": "the-cave-prototype",
-  "version": "0.1.0",
+  "name": "endless-canvas",
+  "version": "0.3.0",
   "private": true,
+  "type": "commonjs",
   "scripts": {
     "start": "node server.cjs",
-    "check": "node --check app.js && node --check cave-world.js",
-    "test": "node test.cjs"
+    "build": "node tools/build-pages.cjs",
+    "test": "node --test tests/*.test.mjs tests/*.test.cjs"
   }
 }
