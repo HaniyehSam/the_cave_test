@@ -4,8 +4,6 @@ export const SECTION = 960;      // world units per section; zones are one secti
 export const PAPER = '#f8f7f2';
 export const INK = '#292824';
 export const GROUND = 700;       // pavement line of every street section
-export const MIN_ZOOM = 0.45;
-export const MAX_ZOOM = 2.6;
 
 export const COLORS = {
   ink:      { hex: '#292824', name: 'Ink' },

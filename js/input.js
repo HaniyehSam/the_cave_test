@@ -1,6 +1,6 @@
 // Pointer, wheel and keyboard: draw with one pointer, move with two fingers,
-// the middle button, the hand tool or space; pinch or ctrl+wheel to zoom.
-import { MIN_ZOOM, MAX_ZOOM, MODS } from './config.js';
+// the middle button, the hand tool or space. Scroll moves the canvas at a fixed scale.
+import { MODS } from './config.js';
 import { state, markDirty } from './state.js';
 import { canvas, toWorld } from './render.js';
 import { commit, pick, undo, redo } from './actions.js';
@@ -11,21 +11,10 @@ import { update, toast, hideBubble, anyDialogOpen, openJournalDialog } from './u
 
 const pointers = new Map();
 let space = false;
-let pinch = null;
+let gesture = null;
 
 const round = (v) => Math.round(v * 10) / 10;
 const touches = () => [...pointers.values()].filter((p) => p.type === 'touch');
-
-export function zoomAt(sx, sy, factor) {
-  const before = toWorld(sx, sy);
-  const zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, state.camera.zoom * factor));
-  state.camera.zoom = zoom;
-  state.camera.x = before.x - (sx - state.view.width / 2) / zoom;
-  state.camera.y = before.y - (sy - state.view.height / 2) / zoom;
-  markDirty();
-  save();
-}
-export const zoomBy = (f) => zoomAt(state.view.width / 2, state.view.height / 2, f);
 
 function pan(dx, dy) {
   state.camera.x -= dx / state.camera.zoom;
@@ -71,9 +60,9 @@ function onDown(e) {
   const fingers = touches();
   if (p.type === 'touch' && fingers.length > 1) {
     state.active = null;          // the first finger was the start of a gesture, not a line
-    for (const f of fingers) f.action = 'pinch';
+    for (const f of fingers) f.action = 'gesture';
     const [a, b] = fingers;
-    pinch = { dist: Math.hypot(a.x - b.x, a.y - b.y), cx: (a.x + b.x) / 2, cy: (a.y + b.y) / 2 };
+    gesture = { cx: (a.x + b.x) / 2, cy: (a.y + b.y) / 2 };
     markDirty();
     return;
   }
@@ -103,13 +92,12 @@ function onMove(e) {
   const dx = e.clientX - p.x, dy = e.clientY - p.y;
   p.x = e.clientX;
   p.y = e.clientY;
-  if (p.action === 'pinch') {
+  if (p.action === 'gesture') {
     const [a, b] = touches();
-    if (!a || !b || !pinch) return;
-    const dist = Math.hypot(a.x - b.x, a.y - b.y), cx = (a.x + b.x) / 2, cy = (a.y + b.y) / 2;
-    pan(cx - pinch.cx, cy - pinch.cy);
-    if (pinch.dist > 10) zoomAt(cx, cy, dist / pinch.dist);
-    pinch = { dist, cx, cy };
+    if (!a || !b || !gesture) return;
+    const cx = (a.x + b.x) / 2, cy = (a.y + b.y) / 2;
+    pan(cx - gesture.cx, cy - gesture.cy);
+    gesture = { cx, cy };
     return;
   }
   if (p.action === 'pan') return pan(dx, dy);
@@ -135,8 +123,8 @@ function onUp(e, cancelled = false) {
     // With the hand tool, a tap on a photo tells you where it came from.
     const w = toWorld(p.x, p.y);
     pick(w.x, w.y, 30 / state.camera.zoom, { photos: true });
-  } else if (p.action === 'pinch') {
-    pinch = null;
+  } else if (p.action === 'gesture') {
+    gesture = null;
     for (const f of touches()) f.action = 'pan';   // keep moving with the finger that stays
   }
   if (!pointers.size) canvas.classList.remove('dragging');
@@ -146,7 +134,6 @@ function onUp(e, cancelled = false) {
 function onWheel(e) {
   e.preventDefault();
   if (anyDialogOpen()) return;
-  if (e.ctrlKey || e.metaKey) return zoomAt(e.clientX, e.clientY, Math.exp(-e.deltaY * 0.0022));
   const unit = e.deltaMode === 1 ? 18 : e.deltaMode === 2 ? state.view.height : 1;
   const sideways = e.shiftKey && !e.deltaX;
   pan(-(sideways ? e.deltaY : e.deltaX) * unit, -(sideways ? 0 : e.deltaY) * unit);
@@ -182,8 +169,6 @@ function onKey(e) {
   } else if (k === 'h') state.moving = !state.moving;
   else if (k === 's') return document.getElementById('sizeBtn').click();
   else if (k === 'j') return openJournalDialog();
-  else if (k === '+' || k === '=') return zoomBy(1.25);
-  else if (k === '-' || k === '_') return zoomBy(0.8);
   else if (k.startsWith('arrow')) {
     e.preventDefault();
     const step = 120;
