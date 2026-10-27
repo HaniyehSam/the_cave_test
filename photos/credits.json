@@ -1,0 +1,261 @@
+[
+ {
+  "name": "teapot-blue",
+  "title": "Teapot with Begonias",
+  "source": "Cleveland Museum of Art",
+  "licence": "CC0",
+  "page": "https://clevelandart.org/art/2022.168"
+ },
+ {
+  "name": "apple-red",
+  "title": "Pomological Watercolor POM00000185",
+  "source": "Wikimedia Commons",
+  "licence": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Pomological_Watercolor_POM00000185.jpg"
+ },
+ {
+  "name": "pear-green",
+  "title": "Pomological Watercolor POM00006907",
+  "source": "Wikimedia Commons",
+  "licence": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Pomological_Watercolor_POM00006907.jpg"
+ },
+ {
+  "name": "jar-blue",
+  "title": "Jar",
+  "source": "Cleveland Museum of Art",
+  "licence": "CC0",
+  "page": "https://clevelandart.org/art/1917.13"
+ },
+ {
+  "name": "cherries",
+  "title": "Pomological Watercolor POM00004708",
+  "source": "Wikimedia Commons",
+  "licence": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Pomological_Watercolor_POM00004708.jpg"
+ },
+ {
+  "name": "globe",
+  "title": "Globe Work Table (Globustisch)",
+  "source": "Cleveland Museum of Art",
+  "licence": "CC0",
+  "page": "https://clevelandart.org/art/2020.199"
+ },
+ {
+  "name": "key",
+  "title": "Key",
+  "source": "Cleveland Museum of Art",
+  "licence": "CC0",
+  "page": "https://clevelandart.org/art/1952.586"
+ },
+ {
+  "name": "tiny-shoe",
+  "title": "Miniature Shoe",
+  "source": "Cleveland Museum of Art",
+  "licence": "CC0",
+  "page": "https://clevelandart.org/art/1966.482"
+ },
+ {
+  "name": "pharmacy-jar",
+  "title": "Pharmacy Jar (Albarello)",
+  "source": "Cleveland Museum of Art",
+  "licence": "CC0",
+  "page": "https://clevelandart.org/art/1965.553"
+ },
+ {
+  "name": "green-clock",
+  "title": "Clock",
+  "source": "Cleveland Museum of Art",
+  "licence": "CC0",
+  "page": "https://clevelandart.org/art/1966.475"
+ },
+ {
+  "name": "compass-sundial",
+  "title": "Compass and Sun Dial",
+  "source": "Cleveland Museum of Art",
+  "licence": "CC0",
+  "page": "https://clevelandart.org/art/1916.358"
+ },
+ {
+  "name": "lighthouse",
+  "title": "Eddystone Lighthouse, Plymouth, England-LCCN2002708052",
+  "source": "Wikimedia Commons",
+  "licence": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Eddystone_Lighthouse,_Plymouth,_England-LCCN2002708052.jpg"
+ },
+ {
+  "name": "shell-plate",
+  "title": "British conchology, or, An account of the Mollusca which now inhabit the British Isles and the surrounding seas (1862) (14591231439)",
+  "source": "Wikimedia Commons",
+  "licence": "No restrictions",
+  "page": "https://commons.wikimedia.org/wiki/File:British_conchology,_or,_An_account_of_the_Mollusca_which_now_inhabit_the_British_Isles_and_the_surrounding_seas_(1862)_(14591231439).jpg"
+ },
+ {
+  "name": "locomotive",
+  "title": "Taiwan Railway Steam Locomotive Class B6",
+  "source": "Wikimedia Commons",
+  "licence": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Taiwan_Railway_Steam_Locomotive_Class_B6.jpg"
+ },
+ {
+  "name": "pocket-watch",
+  "title": "Pocket Watch-saam 1929.8.245.54",
+  "source": "Wikimedia Commons",
+  "licence": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pocket_Watch-saam_1929.8.245.54.jpg"
+ },
+ {
+  "name": "tall-clock",
+  "title": "Tall Clock",
+  "source": "Cleveland Museum of Art",
+  "licence": "CC0",
+  "page": "https://clevelandart.org/art/1992.70"
+ },
+ {
+  "name": "pigeons",
+  "title": "Robert Havell after John James Audubon, Passenger Pigeon, 1829, NGA 32203",
+  "source": "Wikimedia Commons",
+  "licence": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Robert_Havell_after_John_James_Audubon,_Passenger_Pigeon,_1829,_NGA_32203.jpg"
+ },
+ {
+  "name": "montgolfier",
+  "title": "First Montgolfier brothers balloon - DPLA - 4efbcd3f9c538e38981d8acf2f0dab90",
+  "source": "Wikimedia Commons",
+  "licence": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:First_Montgolfier_brothers_balloon_-_DPLA_-_4efbcd3f9c538e38981d8acf2f0dab90.jpg"
+ },
+ {
+  "name": "apple-yellow",
+  "title": "Pomological Watercolor POM00000153",
+  "source": "Wikimedia Commons",
+  "licence": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Pomological_Watercolor_POM00000153.jpg"
+ },
+ {
+  "name": "pear-big",
+  "title": "Belle Angevine Pear in 8 December 1900 Pomological Watercolor POM00006761 (cropped)",
+  "source": "Wikimedia Commons",
+  "licence": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Belle_Angevine_Pear_in_8_December_1900_Pomological_Watercolor_POM00006761_(cropped).jpg"
+ },
+ {
+  "name": "cherry-branch",
+  "title": "Pomological Watercolor POM00004436",
+  "source": "Wikimedia Commons",
+  "licence": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Pomological_Watercolor_POM00004436.jpg"
+ },
+ {
+  "name": "wild-turkey",
+  "title": "The birds of America. (Livraison) 1, Plate I, Great American Cock Male ; Vulgo Wild Turkey - estampe - Drawn by J. J. Audubon ; Engraved by W. H. Lizars Edin.r - btv1b53144013v",
+  "source": "Wikimedia Commons",
+  "licence": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:The_birds_of_America._(Livraison)_1,_Plate_I,_Great_American_Cock_Male_;_Vulgo_Wild_Turkey_-_estampe_-_Drawn_by_J._J._Audubon_;_Engraved_by_W._H._Lizars_Edin.r_-_btv1b53144013v.jpg"
+ },
+ {
+  "name": "moon",
+  "title": "Full Moon",
+  "source": "NASA",
+  "licence": "Public domain",
+  "page": "https://images.nasa.gov/details/GSFC_20171208_Archive_e000868"
+ },
+ {
+  "name": "saturn",
+  "title": "Saturn from Far and Near Cassini-Huygens",
+  "source": "NASA",
+  "licence": "Public domain",
+  "page": "https://images.nasa.gov/details/PIA05983"
+ },
+ {
+  "name": "earth",
+  "title": "NASA Blue Marble 2007 West",
+  "source": "NASA",
+  "licence": "Public domain",
+  "page": "https://images.nasa.gov/details/GSFC_20171208_Archive_e002131"
+ },
+ {
+  "name": "bootprint",
+  "title": "Saturn Apollo Program",
+  "source": "NASA",
+  "licence": "Public domain",
+  "page": "https://images.nasa.gov/details/6901250"
+ },
+ {
+  "name": "telescope",
+  "title": "Binocular telescope, by Jan and Harmanus van Deijl",
+  "source": "Wikimedia Commons",
+  "licence": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Binocular_telescope,_by_Jan_and_Harmanus_van_Deijl.JPG"
+ },
+ {
+  "name": "old-book",
+  "title": "Gospel Book with Commentaries",
+  "source": "Cleveland Museum of Art",
+  "licence": "CC0",
+  "page": "https://clevelandart.org/art/1942.152"
+ },
+ {
+  "name": "inkwell",
+  "title": "Inkwell",
+  "source": "Cleveland Museum of Art",
+  "licence": "CC0",
+  "page": "https://clevelandart.org/art/2008.64"
+ },
+ {
+  "name": "candlestick",
+  "title": "Paschal Candlestick",
+  "source": "Cleveland Museum of Art",
+  "licence": "CC0",
+  "page": "https://clevelandart.org/art/1942.802"
+ },
+ {
+  "name": "mushroom-chart",
+  "title": "Adolphe Millot champignon",
+  "source": "Wikimedia Commons",
+  "licence": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Adolphe_Millot_champignon.jpg"
+ },
+ {
+  "name": "storage-jar",
+  "title": "Jar",
+  "source": "Cleveland Museum of Art",
+  "licence": "CC0",
+  "page": "https://clevelandart.org/art/1983.28"
+ },
+ {
+  "name": "bottle",
+  "title": "Long-necked Bottle with Incised Floral Design",
+  "source": "Cleveland Museum of Art",
+  "licence": "CC0",
+  "page": "https://clevelandart.org/art/1921.622"
+ },
+ {
+  "name": "jellyfish",
+  "title": "Haeckel Discomedusae 8",
+  "source": "Wikimedia Commons",
+  "licence": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Haeckel_Discomedusae_8.jpg"
+ },
+ {
+  "name": "anemones",
+  "title": "Haeckel Actiniae",
+  "source": "Wikimedia Commons",
+  "licence": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Haeckel_Actiniae.jpg"
+ },
+ {
+  "name": "starfish",
+  "title": "Nature neighbors (Plate 501) (6276924246)",
+  "source": "Wikimedia Commons",
+  "licence": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Nature_neighbors_(Plate_501)_(6276924246).jpg"
+ },
+ {
+  "name": "diving-helmet",
+  "title": "Diving helmet Nautical Magazine 1832 386",
+  "source": "Wikimedia Commons",
+  "licence": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Diving_helmet_Nautical_Magazine_1832_386.png"
+ }
+]
