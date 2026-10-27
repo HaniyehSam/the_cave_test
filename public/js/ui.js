@@ -1,7 +1,7 @@
 // The pocket of tools, the journal, toasts and speech bubbles.
-import { COLORS, PATTERNS, MODS, SIZES, SECTION, findInfo } from './config.js';
+import { COLORS, PATTERNS, MODS, SIZES } from './config.js';
 import { state, markDirty } from './state.js';
-import { zones, zoneAtPoint, allCredits } from './world.js';
+import { zoneAtPoint, allCredits, loadCredits } from './world.js';
 import { patternTile } from './paint.js';
 import { toScreen, canvas, render } from './render.js';
 import { hooks, undo, redo, resetAll } from './actions.js';
@@ -189,7 +189,6 @@ export function update() {
   $('moveBtn').setAttribute('aria-pressed', String(state.moving));
   $('undoBtn').disabled = !state.strokes.length;
   $('redoBtn').disabled = !state.redo.length;
-  $('findCount').textContent = String([...state.found].filter((id) => !['tool:pencil', 'tool:eraser', 'color:ink'].includes(id)).length);
   canvas.classList.toggle('moving', state.moving);
   canvas.classList.toggle('filling', state.tool === 'fill' && !state.moving);
   lastZone = undefined;
@@ -198,67 +197,15 @@ export function update() {
 
 // ---------- Journal ----------
 
-// A little map of the hand-made places. Visited ones show how alive they are, and take you there.
-function journalMap() {
-  const cols = zones.map((z) => z.col), rows = zones.map((z) => z.row);
-  const c0 = Math.min(...cols), c1 = Math.max(...cols), r0 = Math.min(...rows), r1 = Math.max(...rows);
-  const here = zoneAtPoint(state.camera.x, state.camera.y);
-  const map = document.createElement('div');
-  map.className = 'map';
-  map.style.gridTemplateColumns = `repeat(${c1 - c0 + 1}, 1fr)`;
-  for (let row = r0; row <= r1; row++)
-    for (let col = c0; col <= c1; col++) {
-      const zone = zones.find((z) => z.col === col && z.row === row);
-      const cell = document.createElement(zone && state.visited.has(zone.id) ? 'button' : 'div');
-      cell.className = 'cell' + (zone ? '' : ' blank') + (zone && zone === here ? ' here' : '');
-      if (zone) {
-        const seen = state.visited.has(zone.id), warm = state.warmth[zone.id] || 0;
-        cell.style.setProperty('--warm', warm);
-        cell.innerHTML = seen ? `<span>${zone.name.replace(/^The /, '')}</span><i style="width:${Math.round(warm * 100)}%"></i>` : '<span>?</span>';
-        if (seen) {
-          cell.title = `Go to ${zone.name}`;
-          cell.onclick = () => {
-            $('journal').close();
-            fly({ x: zone.col * SECTION + 480, y: zone.row * SECTION + 470, zoom: innerWidth < 680 ? 0.62 : 0.9 });
-          };
-        }
-      }
-      map.append(cell);
-    }
-  return map;
-}
-
-function openJournal() {
+async function openJournal() {
   const body = $('journalBody');
-  body.replaceChildren(journalMap());
-  let got = 0, total = 0;
-  for (const zone of zones) {
-    const h = document.createElement('h3');
-    h.textContent = `${zone.name} · ${Math.round((state.warmth[zone.id] || 0) * 100)}% alive`;
-    const grid = document.createElement('div');
-    grid.className = 'finds';
-    for (const f of zone.finds) {
-      const info = findInfo(f.id), have = state.found.has(f.id);
-      total++;
-      if (have) got++;
-      const row = document.createElement('div');
-      row.className = 'find' + (have ? ' got' : '');
-      const chip = document.createElement('span');
-      chip.className = 'chip';
-      if (have && info.kind === 'color') chip.style.setProperty('--pigment', COLORS[info.key].hex);
-      else chip.textContent = have ? '✓' : '?';
-      const text = document.createElement('span');
-      text.innerHTML = have ? `${info.name}<small>${info.noun}</small>` : `Something ${f.hidden ? 'hidden' : 'here'}<small>${f.clue || 'keep looking'}</small>`;
-      row.append(chip, text);
-      grid.append(row);
-    }
-    body.append(h, grid);
-  }
+  body.replaceChildren();
+  if (!allCredits().length) await loadCredits();
   const credits = allCredits();
   if (credits.length) {
-    const more = document.createElement('details');
+    const more = document.createElement('section');
     more.className = 'credits';
-    more.innerHTML = '<summary>Where the photos come from</summary>';
+    more.innerHTML = '<p>Where the photos come from</p>';
     const list = document.createElement('ul');
     for (const c of credits) {
       const li = document.createElement('li');
@@ -273,7 +220,6 @@ function openJournal() {
     more.append(list);
     body.append(more);
   }
-  $('journalSummary').textContent = `${got} of ${total} things found so far. More of the world is still being drawn.`;
   $('journal').showModal();
 }
 
@@ -349,9 +295,7 @@ async function pin(e) {
 
 // ---------- Wiring ----------
 
-let fly = () => {};
-
-export function initUI({ goHome, zoomBy, flyTo }) {
+export function initUI({ goHome }) {
   if (!GALLERY_ENABLED) {
     $('galleryBtn').hidden = true;
     $('pinBtn').hidden = true;
@@ -360,7 +304,6 @@ export function initUI({ goHome, zoomBy, flyTo }) {
     $('exportBtn').title = 'Save a picture';
     $('exportBtn').setAttribute('aria-label', 'Save a picture');
   }
-  fly = flyTo;
   hooks.toast = toast;
   hooks.changed = update;
   hooks.bubble = showBubble;
@@ -380,8 +323,6 @@ export function initUI({ goHome, zoomBy, flyTo }) {
   $('undoBtn').onclick = undo;
   $('redoBtn').onclick = redo;
   $('homeBtn').onclick = goHome;
-  $('zoomIn').onclick = () => zoomBy(1.25);
-  $('zoomOut').onclick = () => zoomBy(0.8);
   $('journalBtn').onclick = openJournal;
   $('exportBtn').onclick = () => {
     $('exportStatus').textContent = '';

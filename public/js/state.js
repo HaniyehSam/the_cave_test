@@ -2,7 +2,8 @@
 import { STARTING_FINDS } from './config.js';
 
 // Where every visit starts: Paper Street, framed to fit the screen.
-export const homeCamera = () => (innerWidth < 680 ? { x: 330, y: 500, zoom: 0.62 } : { x: 480, y: 470, zoom: 1.1 });
+const compactView = innerWidth < 680;
+export const homeCamera = () => (compactView ? { x: 330, y: 500, zoom: 0.62 } : { x: 480, y: 470, zoom: 1.1 });
 
 export const state = {
   camera: homeCamera(),

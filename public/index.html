@@ -13,9 +13,8 @@
   <header id="place" aria-live="polite"><span id="placeName"></span><span id="placeFinds"></span></header>
 
   <div class="actions">
-    <button id="journalBtn" title="Your journal (J)" aria-label="Open your journal">
+    <button id="journalBtn" title="Credits (J)" aria-label="Open credits">
       <svg viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM5 17a3 3 0 0 1 3-3h11M9 8h6"/></svg>
-      <span id="findCount">0</span>
     </button>
     <a id="galleryBtn" href="gallery.html" title="The gallery wall" aria-label="Visit the gallery wall">
       <svg viewBox="0 0 24 24"><path d="M3 5h18v14H3zM3 15l5-5 4 4 3-3 6 6M15 9h.01"/></svg>
@@ -48,19 +47,14 @@
   </nav>
 
   <button id="homeBtn" title="Back to Paper Street" aria-label="Back to Paper Street"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8M6 9v12h12V9M10 21v-7h4v7"/></svg></button>
-  <div class="zoom">
-    <button id="zoomIn" title="Zoom in (+)" aria-label="Zoom in">+</button>
-    <button id="zoomOut" title="Zoom out (-)" aria-label="Zoom out">−</button>
-  </div>
 
   <div id="bubble" hidden><span id="bubbleName"></span><p id="bubbleText"></p></div>
   <div id="toast" role="status" aria-live="polite"></div>
   <div id="loading" aria-hidden="true">unfolding…</div>
 
   <dialog id="journal">
-    <button class="close" data-close aria-label="Close journal">×</button>
-    <h2>Journal</h2>
-    <p class="sub" id="journalSummary"></p>
+    <button class="close" data-close aria-label="Close credits">×</button>
+    <h2>Credits</h2>
     <div id="journalBody"></div>
   </dialog>
 
