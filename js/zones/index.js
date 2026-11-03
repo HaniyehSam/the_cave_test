@@ -1,9 +1,11 @@
-// Every hand-made zone in the world. Each one owns a single 960×960 section.
+// Every hand-made zone in Little Margin. Each one owns a single 960×960 section. They sit
+// apart from each other; the sections in between are empty street, tunnel or sky (empty.js).
 //
-//            col -2      col -1        col 0          col 1            col 2      col 3
-//   row -1               Observatory   Rooftops       Cloud Orchard
-//   row 0    Cabinet     Greenhouse    Paper Street   Night Market     Harbour    Station
-//   row 1                Root Cellar   Library        Drowned Garden
+//          col -5    -4  -3           -2          -1  0              1             2  3                4  5  6
+//   row -2                                                                          Cloud Orchard
+//   row -1               Observatory                  Rooftops
+//   row 0  Cabinet       ·            Greenhouse  ·   Paper Street   Night Market  ·  Harbour          ·  ·  Station
+//   row 1                             Root Cellar ·   Library        Painted Cave  ·  Drowned Garden
 import cabinet from './cabinet.js';
 import cellar from './cellar.js';
 import greenhouse from './greenhouse.js';
@@ -16,5 +18,6 @@ import orchard from './orchard.js';
 import rooftops from './rooftops.js';
 import seafloor from './sea-floor.js';
 import station from './station.js';
+import storycave from './story-cave.js';
 
-export const ZONES = [observatory, rooftops, orchard, cabinet, greenhouse, home, market, harbour, station, cellar, library, seafloor];
+export const ZONES = [orchard, observatory, rooftops, cabinet, greenhouse, home, market, harbour, station, cellar, library, storycave, seafloor];

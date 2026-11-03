@@ -3,21 +3,22 @@ import { SECTION } from './config.js';
 import { state, markDirty } from './state.js';
 import { sectionSVG } from './svg.js';
 import { ZONES } from './zones/index.js';
-import { outskirtsZone } from './zones/outskirts.js';
+import { emptyZone } from './zones/empty.js';
 
 const cellKey = (col, row) => `${col},${row}`;
 const byCell = new Map(ZONES.map((z) => [cellKey(z.col, z.row), z]));
-const generated = new Map();   // outskirts, built on first visit and kept
+const blanks = new Map();   // the empty sections, made once and kept
 
-// Every cell of the world is a place: hand-made if there is one, otherwise generated.
+// Every cell of the world is a place: hand-made if there is one, otherwise empty.
 export function zoneAt(col, row) {
   const k = cellKey(col, row);
   if (byCell.has(k)) return byCell.get(k);
-  if (!generated.has(k)) generated.set(k, outskirtsZone(col, row));
-  return generated.get(k);
+  if (!blanks.has(k)) blanks.set(k, emptyZone(col, row));
+  return blanks.get(k);
 }
-export const zoneById = (id) => ZONES.find((z) => z.id === id) || [...generated.values()].find((z) => z.id === id) || null;
-export const knownZones = () => [...ZONES, ...generated.values()];
+export const zoneById = (id) => ZONES.find((z) => z.id === id) || null;
+export const zoneFromId = zoneById;
+export const knownZones = () => ZONES;
 export const zoneAtPoint = (x, y) => zoneAt(Math.floor(x / SECTION), Math.floor(y / SECTION));
 export const secretId = (zone, secret) => `${zone.id}:${secret.id}`;
 export const zones = ZONES;
@@ -170,6 +171,17 @@ function tape(ctx, x, y, angle, size) {
   ctx.restore();
 }
 
+// The colour photo itself, or null while it is still loading.
+export function photoImage(src) {
+  if (!src) return null;
+  const p = loadPhoto(src);
+  if (p instanceof Promise) {
+    p.then(markDirty, () => {});
+    return null;
+  }
+  return p.img;
+}
+
 const openPhotos = (zone) => (zone?.photos || []).filter((p) => !p.hidden || state.secrets.has(`${zone.id}:${p.hidden}`));
 
 // Builds the greyscale and colour collage layers for a section once its photos are loaded.
@@ -242,17 +254,6 @@ export async function loadCredits() {
   return credits;
 }
 export const allCredits = () => credits;
-
-// The photo under a world point, with its credit.
-export function photoAt(wx, wy) {
-  const col = Math.floor(wx / SECTION), row = Math.floor(wy / SECTION);
-  const s = getSection(col, row);
-  const lx = wx - col * SECTION, ly = wy - row * SECTION;
-  for (const b of [...(s?.photoBoxes || [])].reverse()) {
-    if (lx >= b.x && lx <= b.x + b.w && ly >= b.y && ly <= b.y + b.h) return credits.find((c) => c.name === b.src) || { name: b.src, title: b.src };
-  }
-  return null;
-}
 
 // Keep nearby sections, forget rasters far away so memory stays small.
 export function keepOnly(keys) {

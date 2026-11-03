@@ -1,5 +1,5 @@
-// The gallery wall: every picture visitors have pinned, newest first.
 import { GALLERY_ENABLED } from './hosting.js';
+// The gallery wall: every picture visitors have pinned, newest first.
 const $ = (id) => document.getElementById(id);
 const PIN_KEYS = 'paper-world-pin-keys';
 
@@ -42,11 +42,7 @@ function open(p) {
   $('closer').showModal();
 }
 
-async function load() {
-  if (!GALLERY_ENABLED) {
-    $('summary').textContent = 'The shared gallery is unavailable on this hosted version. You can still download your paintings as PNG files.';
-    return;
-  }
+async function load() { if (!GALLERY_ENABLED) { document.getElementById("summary").textContent = "The shared gallery is unavailable on this hosted version."; return; }
   let pins = [];
   try {
     pins = await (await fetch('api/gallery')).json();

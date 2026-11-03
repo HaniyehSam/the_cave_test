@@ -30,14 +30,16 @@ function snapshot() {
   return {
     strokes: state.strokes.map(plain),
     found: [...state.found],
-    fresh: [...state.fresh],
     secrets: [...state.secrets],
+    ideas: [...state.ideas],
+    words: state.words,
+    mixes: state.mixes,
+    paraded: state.paraded,
     talked: state.talked,
     visited: [...state.visited],
     camera: state.camera,
     tool: state.tool,
     color: state.color,
-    pattern: state.pattern,
     size: state.size,
     mods: state.mods,
   };

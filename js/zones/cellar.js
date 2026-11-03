@@ -85,7 +85,7 @@ function alive(ctx, t, { warmth, has }) {
 export default {
   id: 'cellar',
   name: 'The Root Cellar',
-  col: -1,
+  col: -2,
   row: 1,
   art,
   wash: colourWash,
@@ -95,8 +95,13 @@ export default {
     { src: 'bottle', x: 250, y: 716, h: 86, rotate: 3, tape: 0 },
     { src: 'mushroom-chart', x: 480, y: 420, h: 170, rotate: -2, tape: 2 },
   ],
-  finds: [{ id: 'color:beet', x: 680, y: 330, clue: 'hanging from the ceiling' }],
-  secrets: [{ id: 'mushrooms', x: 436, y: 852, r: 40, amount: 50, reveal: glow, say: 'The mushrooms glow softly.' }],
+  finds: [],
+  secrets: [{ id: 'mushrooms', x: 436, y: 852, r: 40, amount: 50, reveal: glow }],
+  ideas: [
+    { id: 'bat', type: 'trace', shape: 'bat', x: 240, y: 380, s: 1 },
+    { id: 'barrels', type: 'space', x: 600, y: 360, w: 260, h: 200, anim: 'bob' },
+    { id: 'shelf', type: 'hidden', x: 60, y: 440, w: 130, h: 150, photo: 'jar-blue' },
+  ],
   residents: [
     {
       id: 'delve', name: 'Mrs Delve', x: 884, y: 860, w: 60, h: 80,

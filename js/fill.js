@@ -106,7 +106,7 @@ export async function fillAt(wx, wy) {
   ctx.putImageData(img, 0, 0);
   return {
     stroke: {
-      kind: 'fill', color: state.color, pattern: state.pattern,
+      kind: 'fill', color: state.color,
       x: col * SECTION + x, y: row * SECTION + y, w, h,
       area: result.count, mask: c.toDataURL('image/png'),
     },

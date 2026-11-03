@@ -98,8 +98,8 @@ function alive(ctx, t, { warmth, has }) {
 export default {
   id: 'orchard',
   name: 'The Cloud Orchard',
-  col: 1,
-  row: -1,
+  col: 3,
+  row: -2,
   art,
   wash: colourWash,
   alive,
@@ -109,11 +109,13 @@ export default {
     { src: 'cherry-branch', x: 770, y: 426, h: 104, rotate: -3, tape: 1 },
     { src: 'wild-turkey', x: 150, y: 584, h: 122, rotate: 0, tape: 2 },
   ],
-  finds: [
-    { id: 'color:plum', x: 470, y: 612, clue: 'by the basket of windfalls' },
-    { id: 'pattern:confetti', x: 800, y: 620, hidden: 'blossom', clue: 'wake the cherry tree' },
+  finds: [],
+  secrets: [{ id: 'blossom', x: 760, y: 420, r: 60, amount: 120, reveal: blossom }],
+  ideas: [
+    { id: 'fruit', type: 'space', x: 120, y: 110, w: 260, h: 170, anim: 'bob' },
+    { id: 'sapling', type: 'trace', shape: 'tree', x: 850, y: 584, s: 0.9 },
+    { id: 'butterfly', type: 'trace', shape: 'butterfly', x: 740, y: 200, s: 1 },
   ],
-  secrets: [{ id: 'blossom', x: 760, y: 420, r: 60, amount: 120, reveal: blossom, say: 'The cherry tree bursts into blossom!' }],
   residents: [
     {
       id: 'bramble', name: 'Ms Bramble', x: 704, y: 640, w: 44, h: 76,

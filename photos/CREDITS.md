@@ -42,3 +42,14 @@ Originals are in assets-src/photos/raw; cutouts are made with tools/cutout.html 
 | anemones.webp | [Haeckel Actiniae](https://commons.wikimedia.org/wiki/File:Haeckel_Actiniae.jpg) | Wikimedia Commons | Public domain |
 | starfish.webp | [Nature neighbors (Plate 501) (6276924246)](https://commons.wikimedia.org/wiki/File:Nature_neighbors_(Plate_501)_(6276924246).jpg) | Wikimedia Commons | Public domain |
 | diving-helmet.webp | [Diving helmet Nautical Magazine 1832 386](https://commons.wikimedia.org/wiki/File:Diving_helmet_Nautical_Magazine_1832_386.png) | Wikimedia Commons | Public domain |
+| bld-ferronnerie.webp | [Rue de la Ferronnerie](https://clevelandart.org/art/1984.24) | Cleveland Museum of Art | CC0 |
+| bld-rue-du-regard.webp | [Rue du Regard](https://clevelandart.org/art/1980.35) | Cleveland Museum of Art | CC0 |
+| bld-clamart.webp | [Clamart (Vielle Rue)](https://clevelandart.org/art/2019.83) | Cleveland Museum of Art | CC0 |
+| bld-clothes-shop.webp | [An Old Clothes Shop, Seven Dials](https://clevelandart.org/art/2019.51) | Cleveland Museum of Art | CC0 |
+| bld-spelman.webp | [Solomon Clark Spelman and Martha W. Spelman in front of S.C. Spelman General Store, Hampden, MA](https://clevelandart.org/art/2021.44) | Cleveland Museum of Art | CC0 |
+| bld-colmar.webp | [Façade Alsacienne, Corps de Garde à Colmar](https://clevelandart.org/art/2021.63) | Cleveland Museum of Art | CC0 |
+| bld-stone-cottage.webp | [High Rock Tower and Stone Cottage, Lynn, Massachusetts](https://clevelandart.org/art/2021.46) | Cleveland Museum of Art | CC0 |
+| car-two-cents.webp | [Around the block for 2 cents (car)](https://commons.wikimedia.org/wiki/File:Around_the_block_for_2_cents_(car)_LOC_2163536408.jpg) | Wikimedia Commons | Public domain |
+| car-floors-truck.webp | [Strom & Olsen Hardwood Floors, 12th Ave, Seattle, circa 1920 (MOHAI 9100)](https://commons.wikimedia.org/wiki/File:Strom_%26_Olsen_Hardwood_Floors,_12th_Ave,_Seattle,_circa_1920_(MOHAI_9100).jpg) | Wikimedia Commons | Public domain |
+| car-delivery-trucks.webp | [Crescent Manufacturing Company delivery trucks, Seattle, ca 1927 (MOHAI 4483)](https://commons.wikimedia.org/wiki/File:Crescent_Manufacturing_Company_delivery_trucks,_Seattle,_ca_1927_(MOHAI_4483).jpg) | Wikimedia Commons | Public domain |
+| car-ford-touring.webp | [Ford Motor Co. Ford touring car at Library (of Congress, Washington, D.C.)](https://commons.wikimedia.org/wiki/File:Ford_Motor_Co._Ford_touring_car_at_Library_(of_Congress,_Washington,_D.C.)_LCCN2016825520.jpg) | Wikimedia Commons | Public domain |
