@@ -1,14 +1,18 @@
-// Draws one frame: artwork, colour washes, paint (multiplied so ink stays on top),
-// collectable finds, and the little animations of zones that have come alive.
+// Draws one frame: drifting clouds, artwork, colour washes, paint (multiplied so ink stays
+// on top), hidden pictures, traffic, drawing ideas, finds, and everything that has come alive.
 import { SECTION, PAPER } from './config.js';
 import { state } from './state.js';
-import { zones, ensureSection, raster, keepOnly, worldFinds, findVisible, secretId, isLoading, photoLayer } from './world.js';
-import { drawPaint, settleSprouts, hasWiggles } from './paint.js';
+import { ensureSection, raster, keepOnly, worldFinds, findVisible, secretId, isLoading, photoLayer } from './world.js';
+import { drawPaint, settleSprouts, hasMovingLines } from './paint.js';
 import { drawFind } from './finds.js';
+import { drawIdeas, hiddenOnScreen, fitInside, paradeGroups } from './ideas.js';
+import { drawSky, drawFlyers, drawTraffic, drawParade } from './ambient.js';
 
 export const canvas = document.getElementById('world');
 const screen = canvas.getContext('2d');
 const paintLayer = document.createElement('canvas');
+const liveLayer = document.createElement('canvas');
+const revealLayer = document.createElement('canvas');
 
 export function viewRect(cam = state.camera, view = state.view) {
   const w = view.width / cam.zoom, h = view.height / cam.zoom;
@@ -58,6 +62,7 @@ export function render(ctx = screen, { width, height, dpr } = state.view, cam = 
   ctx.fillStyle = PAPER;
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   ctx.setTransform(...toWorldMatrix);
+  drawSky(ctx, rect, t);
 
   // 1. Artwork, with revealed secrets baked in.
   const shown = [];
@@ -75,8 +80,12 @@ export function render(ctx = screen, { width, height, dpr } = state.view, cam = 
   ctx.globalCompositeOperation = 'multiply';
   for (const s of shown) {
     const layer = photoLayer(s, s.zone ? state.shownWarmth[s.zone.id] || 0 : 0);
-    if (layer) ctx.drawImage(layer, s.col * SECTION, s.row * SECTION, SECTION, SECTION);
+    if (!layer) continue;
+    // Photos pasted up as whole buildings are solid prints: clouds go behind them.
+    ctx.globalCompositeOperation = s.zone.empty ? 'source-over' : 'multiply';
+    ctx.drawImage(layer, s.col * SECTION, s.row * SECTION, SECTION, SECTION);
   }
+  ctx.globalCompositeOperation = 'multiply';
   for (const s of shown) {
     const w = s.zone ? state.shownWarmth[s.zone.id] || 0 : 0;
     if (!s.wash || w <= 0.01) continue;
@@ -85,31 +94,45 @@ export function render(ctx = screen, { width, height, dpr } = state.view, cam = 
   }
   ctx.restore();
 
-  // 3. Paint, on its own layer, multiplied onto the paper.
+  // 3. Paint, on its own layer, multiplied onto the paper. Lines that move are drawn on a
+  // second layer first, so an eraser only rubs out what was drawn before it.
   const pw = Math.max(1, Math.round(width * dpr)), ph = Math.max(1, Math.round(height * dpr));
-  if (paintLayer.width !== pw || paintLayer.height !== ph) {
-    paintLayer.width = pw;
-    paintLayer.height = ph;
-  }
-  const p = paintLayer.getContext('2d');
-  p.setTransform(1, 0, 0, 1, 0, 0);
-  p.clearRect(0, 0, pw, ph);
-  p.setTransform(...toWorldMatrix);
-  if (drawPaint(p, rect, res, now)) animating = true;
+  const layers = [paintLayer, liveLayer].map((layer) => {
+    if (layer.width !== pw || layer.height !== ph) {
+      layer.width = pw;
+      layer.height = ph;
+    }
+    const c = layer.getContext('2d');
+    c.setTransform(1, 0, 0, 1, 0, 0);
+    c.clearRect(0, 0, pw, ph);
+    c.setTransform(...toWorldMatrix);
+    return c;
+  });
+  const [p, live] = layers;
+  if (drawPaint(p, live, rect, res, now)) animating = true;
   settleSprouts(now);
-  if (hasWiggles()) animating = true;
+  if (hasMovingLines()) animating = true;
+  p.setTransform(1, 0, 0, 1, 0, 0);
+  p.drawImage(liveLayer, 0, 0);
   ctx.save();
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.globalCompositeOperation = 'multiply';
   ctx.drawImage(paintLayer, 0, 0);
   ctx.restore();
 
-  // 4. Living things and finds, on top of everything.
+  // 4. Hidden pictures show through wherever there is paint, then the traffic and the ideas.
+  for (const h of hiddenOnScreen(shown, rect)) if (revealHidden(ctx, h, toWorldMatrix, pw, ph)) animating = true;
+  // Once the town holds its parade, the traffic gives the road over to your drawings.
+  if (state.paraded) drawParade(ctx, rect, t, paradeGroups());
+  else drawTraffic(ctx, rect, t);
+  drawIdeas(ctx, shown, rect, t);
+
+  // 5. Living things and finds, on top of everything.
   for (const s of shown) {
     const zone = s.zone;
     if (!zone) continue;
     const warmth = state.shownWarmth[zone.id] || 0;
-    const has = (id) => state.secrets.has(secretId(zone, { id }));
+    const has = (id) => state.secrets.has(secretId(zone, { id })) || state.ideas.has(secretId(zone, { id }));
     if (zone.alive) {
       ctx.save();
       ctx.translate(s.col * SECTION, s.row * SECTION);
@@ -124,7 +147,7 @@ export function render(ctx = screen, { width, height, dpr } = state.view, cam = 
     }
   }
 
-  if (ctx === screen && edgeHint(ctx, rect, t, dpr, cam, width, height)) animating = true;
+  drawFlyers(ctx, rect, t);
 
   // Symmetry guides while a symmetry magic is on.
   if (ctx === screen && (state.mods.mirror || state.mods.kaleido) && !state.moving) {
@@ -155,41 +178,31 @@ export function render(ctx = screen, { width, height, dpr } = state.view, cam = 
   return animating || isLoading();
 }
 
-// When nothing on screen is left to find, a glimmer at the edge points to the nearest find.
-function edgeHint(ctx, rect, t, dpr, cam, width, height) {
-  let best = null, bestD = 2200, onScreen = false;
-  for (const zone of zones)
-    for (const f of worldFinds(zone)) {
-      if (!findVisible(zone, f)) continue;
-      if (f.wx > rect.x && f.wx < rect.x + rect.w && f.wy > rect.y && f.wy < rect.y + rect.h) onScreen = true;
-      const d = Math.hypot(f.wx - cam.x, f.wy - cam.y);
-      if (d < bestD) { bestD = d; best = f; }
-    }
-  if (onScreen || !best) return false;
-  const a = Math.atan2(best.wy - cam.y, best.wx - cam.x), m = 34;
-  const k = Math.min((width / 2 - m) / Math.abs(Math.cos(a) || 1e-6), (height / 2 - m - 50) / Math.abs(Math.sin(a) || 1e-6));
-  const x = width / 2 + Math.cos(a) * k, y = height / 2 + Math.sin(a) * k, pulse = (Math.sin(t / 420) + 1) / 2;
-  ctx.save();
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  ctx.translate(x, y);
-  ctx.globalAlpha = 0.45 + pulse * 0.45;
-  ctx.fillStyle = '#f0b429';
-  ctx.beginPath();
-  for (let i = 0; i < 8; i++) {
-    const r = i % 2 ? 3.5 : 12 + pulse * 4, b = (i * Math.PI) / 4 + t / 1600;
-    ctx.lineTo(Math.cos(b) * r, Math.sin(b) * r);
+// A hidden picture: only the parts under paint, until enough is uncovered to show it all.
+function revealHidden(ctx, h, m, pw, ph) {
+  const pic = fitInside(h.img, h.box);
+  if (h.done) {
+    ctx.save();
+    ctx.globalAlpha = Math.min(1, h.since / 900);
+    ctx.drawImage(h.img, pic.x, pic.y, pic.w, pic.h);
+    ctx.restore();
+    return h.since < 900;
   }
-  ctx.fill();
-  ctx.rotate(a);
-  ctx.strokeStyle = '#292824';
-  ctx.lineWidth = 1.4;
-  ctx.beginPath();
-  ctx.moveTo(20, -6);
-  ctx.lineTo(27, 0);
-  ctx.lineTo(20, 6);
-  ctx.stroke();
+  const [k, , , , e, f] = m;
+  const x = Math.floor(pic.x * k + e), y = Math.floor(pic.y * k + f), w = Math.ceil(pic.w * k), hh = Math.ceil(pic.h * k);
+  const sx = Math.max(0, x), sy = Math.max(0, y), cw = Math.min(pw, x + w) - sx, ch = Math.min(ph, y + hh) - sy;
+  if (cw <= 0 || ch <= 0) return false;
+  revealLayer.width = cw;
+  revealLayer.height = ch;
+  const r = revealLayer.getContext('2d');
+  r.drawImage(paintLayer, sx, sy, cw, ch, 0, 0, cw, ch);
+  r.globalCompositeOperation = 'source-in';
+  r.drawImage(h.img, x - sx, y - sy, w, hh);
+  ctx.save();
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.drawImage(revealLayer, sx, sy);
   ctx.restore();
-  return true;
+  return false;
 }
 
 let animating = true;

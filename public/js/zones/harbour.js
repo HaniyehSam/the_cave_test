@@ -114,7 +114,7 @@ function alive(ctx, t, { warmth, has }) {
 export default {
   id: 'harbour',
   name: 'The Harbour',
-  col: 2,
+  col: 3,
   row: 0,
   art,
   wash: colourWash,
@@ -123,11 +123,13 @@ export default {
     { src: 'lighthouse', x: 772, y: 440, h: 300, rotate: 1, tape: 2 },
     { src: 'shell-plate', x: 141, y: 576, h: 104, rotate: -2, tape: 2 },
   ],
-  finds: [
-    { id: 'color:sea', x: 470, y: 624, clue: 'aboard the boat' },
-    { id: 'color:sand', x: 820, y: 676, hidden: 'lamp', clue: 'the lighthouse is dark' },
+  finds: [],
+  secrets: [{ id: 'lamp', x: 794, y: 314, r: 28, amount: 30, reveal: beam }],
+  ideas: [
+    { id: 'catch', type: 'space', x: 476, y: 360, w: 160, h: 145, anim: 'bob' },
+    { id: 'gull', type: 'trace', shape: 'bird', x: 300, y: 240, s: 1 },
+    { id: 'sky', type: 'hidden', x: 560, y: 60, w: 200, h: 200, photo: 'pigeons' },
   ],
-  secrets: [{ id: 'lamp', x: 794, y: 314, r: 28, amount: 30, reveal: beam, say: 'The lighthouse is lit!' }],
   residents: [
     {
       id: 'brine', name: 'Captain Brine', x: 570, y: 650, w: 44, h: 60,

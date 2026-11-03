@@ -1,16 +1,19 @@
-// What painting does to the world: warming zones, revealing secrets, collecting finds.
+// What drawing does to the world: warming zones, revealing secrets, finishing ideas, collecting finds.
 import { SECTION, findInfo, STARTING_FINDS } from './config.js';
-import { state, markDirty, homeCamera } from './state.js';
-import { zones, knownZones, zoneAtPoint, worldFinds, findVisible, secretId, ensureSection, refreshReveal, photoAt } from './world.js';
+import { state, markDirty, startCamera } from './state.js';
+import { zones, knownZones, zoneAtPoint, worldFinds, findVisible, secretId, ensureSection, refreshReveal } from './world.js';
 import { bounds, copies, indexStroke, reindex, loadFill } from './paint.js';
+import { checkIdeas, assignAnims, strokesChanged, isDone } from './ideas.js';
 import { save } from './store.js';
+import { LINES, PARADE_AT } from './story.js';
 
 // The UI fills these in, so this module never imports the DOM layer.
-export const hooks = { toast() {}, changed() {}, bubble() {} };
+export const hooks = { changed() {}, bubble() {}, storyPanel() {} };
 
-const WARM_TARGET = 6500;     // paint needed to bring a zone fully alive
-const FILL_CAP = 280;         // one fill, however big, only counts this much
+const WARM_TARGET = 6500;     // drawing needed to bring a zone fully alive
+const FILL_CAP = 120;         // one fill, however big, only counts this much: drawing matters more
 const SECRET_WARMTH = 0.12;   // each discovered secret warms its zone a little too
+const IDEA_WARMTH = 0.18;     // and so does every drawing idea you finish
 
 // ---------- Warmth ----------
 
@@ -37,20 +40,11 @@ export function recomputeWarmth() {
   const warmth = {};
   for (const z of knownZones()) {
     const secrets = z.secrets.filter((x) => state.secrets.has(secretId(z, x))).length;
-    warmth[z.id] = Math.min(1, (raw[z.id] || 0) / WARM_TARGET + secrets * SECRET_WARMTH);
+    const ideas = (z.ideas || []).filter((i) => isDone(z, i)).length;
+    warmth[z.id] = Math.min(1, (raw[z.id] || 0) / WARM_TARGET + secrets * SECRET_WARMTH + ideas * IDEA_WARMTH);
   }
-  const before = state.warmth;
   state.warmth = warmth;
   markDirty();
-  return before;
-}
-
-function announceWarmth(before) {
-  for (const z of knownZones()) {
-    const was = before[z.id] || 0, now = state.warmth[z.id] || 0;
-    if (was < 0.35 && now >= 0.35) hooks.toast(`${z.name} is waking up…`);
-    else if (was < 1 && now >= 1) hooks.toast(`${z.name} is fully alive!`);
-  }
 }
 
 // ---------- Secrets ----------
@@ -87,20 +81,29 @@ function checkSecrets(stroke, contains) {
       if (!hit) continue;
       state.secrets.add(id);
       refreshReveal(ensureSection(zone.col, zone.row));
-      const appeared = zone.finds.some((f) => f.hidden === secret.id && !state.found.has(f.id));
-      hooks.toast(secret.say + (appeared ? ' Something new appeared.' : ''));
     }
   }
 }
 
 // ---------- Strokes ----------
 
+// Finished drawings just come alive. Only a story panel asks what you drew.
+function finishIdeas(stroke) {
+  if (stroke.kind !== 'line' || stroke.erase) return;
+  for (const [zone, idea] of checkIdeas(stroke)) if (idea.story != null) hooks.storyPanel(zone, idea);
+  // Enough of the town is drawn: Little Margin holds its parade (see story.js).
+  if (state.ideas.size >= PARADE_AT) state.paraded = true;
+}
+
 export function commit(stroke, contains) {
   state.strokes.push(stroke);
   state.redo = [];
   indexStroke(stroke, state.strokes.length - 1);
+  strokesChanged();
   checkSecrets(stroke, contains);
-  announceWarmth(recomputeWarmth());
+  finishIdeas(stroke);
+  assignAnims();
+  recomputeWarmth();
   hooks.changed();
   save();
 }
@@ -110,6 +113,8 @@ export function undo() {
   if (!state.strokes.length) return;
   state.redo.push(state.strokes.pop());
   reindex();
+  strokesChanged();
+  assignAnims();
   recomputeWarmth();
   hooks.changed();
   save();
@@ -120,6 +125,8 @@ export function redo() {
   const s = state.redo.pop();
   state.strokes.push(s);
   indexStroke(s, state.strokes.length - 1);
+  strokesChanged();
+  assignAnims();
   recomputeWarmth();
   hooks.changed();
   save();
@@ -127,24 +134,22 @@ export function redo() {
 
 // ---------- Picking things up and talking ----------
 
+// Picking something up just puts it in the toolbar. A paint goes straight onto the pencil.
 export function collect(id) {
   if (state.found.has(id)) return;
   const info = findInfo(id);
   state.found.add(id);
-  state.fresh.add(id);
-  if (info.kind === 'color') {
+  if (info.kind === 'color' && !info.mixOnly) {
     state.color = info.key;
     if (state.tool === 'eraser') state.tool = 'pencil';
   }
-  const lead = { color: 'You found', pattern: 'A new pattern:', tool: 'You found the', mod: 'Magic!' }[info.kind];
-  hooks.toast(`${lead} ${info.name}${info.kind === 'color' ? ' paint' : ''}. ${info.hint || ''}`.trim());
   hooks.changed();
   markDirty();
   save();
 }
 
-// Returns true if the tap landed on a find or a resident (or, when asked, a photo).
-export function pick(wx, wy, radius, { photos = false } = {}) {
+// Returns true if the tap landed on a find or a resident.
+export function pick(wx, wy, radius) {
   for (const zone of zones) {
     for (const f of worldFinds(zone)) {
       if (findVisible(zone, f) && Math.hypot(f.wx - wx, f.wy - wy) < radius) {
@@ -162,17 +167,16 @@ export function pick(wx, wy, radius, { photos = false } = {}) {
       return true;
     }
   }
-  const photo = photos && photoAt(wx, wy);
-  if (photo) {
-    hooks.toast(`${photo.title}${photo.source ? ` · ${photo.source}, ${photo.licence}` : ''}`, 5000);
-    return true;
-  }
   return false;
 }
 
 export function talk(zone, resident) {
-  const has = (id) => state.secrets.has(`${zone.id}:${id}`);
-  const lines = resident.lines({ warmth: state.warmth[zone.id] || 0, has });
+  // Residents notice secrets you found and ideas you drew, and remember what you named things.
+  const has = (id) => state.secrets.has(`${zone.id}:${id}`) || state.ideas.has(`${zone.id}:${id}`);
+  const word = (id) => state.words[`${zone.id}:${id}`];
+  const story = LINES[`${zone.id}:${resident.id}`];
+  const ctx = { warmth: state.warmth[zone.id] || 0, has, word, parade: state.paraded, drawn: state.ideas.size };
+  const lines = story ? story(ctx) : resident.lines(ctx);
   const key = `${zone.id}:${resident.id}`;
   const n = state.talked[key] || 0;
   state.talked[key] = n + 1;
@@ -188,6 +192,8 @@ export function talk(zone, resident) {
 export async function loadPainting(strokes) {
   await Promise.all(strokes.filter((s) => s.kind === 'fill').map(loadFill));
   reindex();
+  strokesChanged();
+  assignAnims();
   recomputeWarmth();
   for (const [id, v] of Object.entries(state.warmth)) state.shownWarmth[id] = v;
 }
@@ -197,18 +203,21 @@ export function resetAll() {
   state.redo = [];
   state.active = null;
   state.found = new Set(STARTING_FINDS);
-  state.fresh = new Set();
+  state.paraded = false;
   state.secrets = new Set();
+  state.ideas = new Set();
+  state.words = {};
+  state.mixes = [];
   state.talked = {};
   state.visited = new Set();
   state.tool = 'pencil';
   state.color = 'ink';
-  state.pattern = 'solid';
   state.size = 7;
   for (const k of Object.keys(state.mods)) state.mods[k] = false;
-  state.camera = homeCamera();
+  state.camera = startCamera();
   state.shownWarmth = {};
   reindex();
+  strokesChanged();
   recomputeWarmth();
   zones.forEach((z) => refreshReveal(ensureSection(z.col, z.row)));
   hooks.changed();

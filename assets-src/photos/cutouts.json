@@ -382,5 +382,126 @@
    1,
    1
   ]
+ },
+ "bld-ferronnerie": {
+  "file": "bld-ferronnerie.jpg",
+  "mode": "clip",
+  "crop": [
+   0,
+   0,
+   0.36,
+   0.87
+  ],
+  "max": 640
+ },
+ "bld-rue-du-regard": {
+  "file": "bld-rue-du-regard.jpg",
+  "mode": "clip",
+  "crop": [
+   0.04,
+   0.05,
+   1,
+   0.9
+  ],
+  "max": 640
+ },
+ "bld-clamart": {
+  "file": "bld-clamart.jpg",
+  "mode": "clip",
+  "crop": [
+   0.4,
+   0.13,
+   1,
+   0.7
+  ],
+  "max": 640
+ },
+ "bld-clothes-shop": {
+  "file": "bld-clothes-shop.jpg",
+  "mode": "clip",
+  "crop": [
+   0.03,
+   0.03,
+   0.97,
+   0.95
+  ],
+  "max": 640
+ },
+ "bld-spelman": {
+  "file": "bld-spelman.jpg",
+  "mode": "clip",
+  "crop": [
+   0.15,
+   0.17,
+   0.86,
+   0.8
+  ],
+  "max": 640
+ },
+ "bld-colmar": {
+  "file": "bld-colmar.jpg",
+  "mode": "clip",
+  "crop": [
+   0.05,
+   0.04,
+   0.94,
+   0.93
+  ],
+  "max": 640
+ },
+ "bld-stone-cottage": {
+  "file": "bld-stone-cottage.jpg",
+  "mode": "clip",
+  "crop": [
+   0.13,
+   0.42,
+   0.9,
+   0.86
+  ],
+  "max": 640
+ },
+ "car-two-cents": {
+  "file": "car-two-cents.jpg",
+  "mode": "clip",
+  "crop": [
+   0.17,
+   0.24,
+   0.84,
+   0.76
+  ],
+  "max": 320
+ },
+ "car-floors-truck": {
+  "file": "car-floors-truck.jpg",
+  "mode": "clip",
+  "crop": [
+   0.56,
+   0.52,
+   0.99,
+   0.89
+  ],
+  "max": 320
+ },
+ "car-delivery-trucks": {
+  "file": "car-delivery-trucks.jpg",
+  "mode": "clip",
+  "crop": [
+   0.06,
+   0.32,
+   0.52,
+   0.7
+  ],
+  "max": 320
+ },
+ "car-ford-touring": {
+  "file": "car-ford-touring.jpg",
+  "mode": "clip",
+  "crop": [
+   0.385,
+   0.615,
+   0.64,
+   0.79
+  ],
+  "max": 320
  }
 }

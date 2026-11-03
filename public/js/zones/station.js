@@ -96,7 +96,7 @@ function alive(ctx, t, { warmth, has }) {
 export default {
   id: 'station',
   name: 'The Midnight Station',
-  col: 3,
+  col: 6,
   row: 0,
   art,
   wash: colourWash,
@@ -106,11 +106,13 @@ export default {
     { src: 'pocket-watch', x: 480, y: 262, h: 110, rotate: 0, tape: 0 },
     { src: 'tall-clock', x: 92, y: 520, h: 196, rotate: 0, tape: 0 },
   ],
-  finds: [
-    { id: 'pattern:herringbone', x: 470, y: 604, clue: 'underfoot on the platform' },
-    { id: 'color:silver', x: 872, y: 520, hidden: 'clock', clue: 'when the clock starts again' },
+  finds: [],
+  secrets: [{ id: 'clock', x: 480, y: 266, r: 34, amount: 50, reveal: sparkle }],
+  ideas: [
+    { id: 'carriage', type: 'trace', shape: 'train', x: 610, y: 640, s: 1 },
+    { id: 'waiting', type: 'space', x: 540, y: 236, w: 250, h: 180, anim: 'bob' },
+    { id: 'star', type: 'trace', shape: 'star', x: 140, y: 100, s: 0.9 },
   ],
-  secrets: [{ id: 'clock', x: 480, y: 266, r: 34, amount: 50, reveal: sparkle, say: 'The station clock is ticking again.' }],
   residents: [
     {
       id: 'heron', name: 'Stationmaster Heron', x: 568, y: 620, w: 50, h: 180,

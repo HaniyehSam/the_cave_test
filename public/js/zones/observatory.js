@@ -87,7 +87,7 @@ function alive(ctx, t, { warmth, has }) {
 export default {
   id: 'observatory',
   name: 'The Observatory',
-  col: -1,
+  col: -3,
   row: -1,
   art,
   wash: colourWash,
@@ -99,11 +99,13 @@ export default {
     { src: 'bootprint', x: 370, y: 520, h: 56, rotate: -4, tape: 1 },
     { src: 'telescope', x: 590, y: 520, h: 70, rotate: 5, tape: 1 },
   ],
-  finds: [
-    { id: 'color:midnight', x: 590, y: 572, clue: 'on the desk inside' },
-    { id: 'pattern:swirls', x: 480, y: 620, hidden: 'lens', clue: 'look through the big telescope' },
+  finds: [],
+  secrets: [{ id: 'lens', x: 566, y: 410, r: 22, amount: 25, reveal: comet }],
+  ideas: [
+    { id: 'rocket', type: 'trace', shape: 'rocket', x: 150, y: 470, s: 1 },
+    { id: 'planet', type: 'space', x: 430, y: 30, w: 260, h: 190, anim: 'spin', need: 240 },
+    { id: 'balloon', type: 'trace', shape: 'balloon', x: 860, y: 760, s: 1 },
   ],
-  secrets: [{ id: 'lens', x: 566, y: 410, r: 22, amount: 25, reveal: comet, say: 'Shooting stars, everywhere!' }],
   residents: [
     {
       id: 'orbit', name: 'Dr Orbit', x: 404, y: 630, w: 44, h: 72,

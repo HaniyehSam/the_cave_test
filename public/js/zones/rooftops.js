@@ -132,10 +132,14 @@ export default {
     { src: 'pigeons', x: 710, y: 600, h: 70, rotate: -4, tape: 2 },
   ],
   finds: [
-    { id: 'color:mint', x: 394, y: 536, clue: 'pegged to the washing line' },
-    { id: 'pattern:bricks', x: 556, y: 428, clue: 'up a chimney' },
+    { id: 'color:white', x: 394, y: 536 },
   ],
-  secrets: [{ id: 'kite', x: 174, y: 422, r: 26, amount: 30, reveal: freeKite, say: 'The kite pulls free and flies!' }],
+  secrets: [{ id: 'kite', x: 174, y: 422, r: 26, amount: 30, reveal: freeKite }],
+  ideas: [
+    { id: 'view', type: 'space', x: 280, y: 110, w: 300, h: 200, need: 300 },
+    { id: 'plane', type: 'trace', shape: 'plane', x: 120, y: 280, s: 0.9 },
+    { id: 'bird', type: 'trace', shape: 'bird', x: 790, y: 400, s: 0.8 },
+  ],
   residents: [
     {
       id: 'ray', name: 'Ray the sweep', x: 430, y: 560, w: 40, h: 70,

@@ -590,5 +590,188 @@
    "type": "image/png"
   },
   "file": "diving-helmet.png"
+ },
+ {
+  "name": "bld-ferronnerie",
+  "zone": "Little Margin streets",
+  "source": "Cleveland Museum of Art",
+  "title": "Rue de la Ferronnerie",
+  "artist": "Charles Marville",
+  "date": "c. 1865",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/1984.24/1984.24_web.jpg",
+  "page": "https://clevelandart.org/art/1984.24",
+  "size": {
+   "ok": true,
+   "bytes": 528307,
+   "type": "image/jpeg"
+  },
+  "file": "bld-ferronnerie.jpg"
+ },
+ {
+  "name": "bld-rue-du-regard",
+  "zone": "Little Margin streets",
+  "source": "Cleveland Museum of Art",
+  "title": "Rue du Regard",
+  "artist": "Eugène Atget",
+  "date": "1899",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/1980.35/1980.35_web.jpg",
+  "page": "https://clevelandart.org/art/1980.35",
+  "size": {
+   "ok": true,
+   "bytes": 511166,
+   "type": "image/jpeg"
+  },
+  "file": "bld-rue-du-regard.jpg"
+ },
+ {
+  "name": "bld-clamart",
+  "zone": "Little Margin streets",
+  "source": "Cleveland Museum of Art",
+  "title": "Clamart (Vielle Rue)",
+  "artist": "Eugène Atget",
+  "date": "before 1914",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/2019.83/2019.83_web.jpg",
+  "page": "https://clevelandart.org/art/2019.83",
+  "size": {
+   "ok": true,
+   "bytes": 301977,
+   "type": "image/jpeg"
+  },
+  "file": "bld-clamart.jpg"
+ },
+ {
+  "name": "bld-clothes-shop",
+  "zone": "Little Margin streets",
+  "source": "Cleveland Museum of Art",
+  "title": "An Old Clothes Shop, Seven Dials",
+  "artist": "John Thomson",
+  "date": "1877",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/2019.51/2019.51_web.jpg",
+  "page": "https://clevelandart.org/art/2019.51",
+  "size": {
+   "ok": true,
+   "bytes": 260473,
+   "type": "image/jpeg"
+  },
+  "file": "bld-clothes-shop.jpg"
+ },
+ {
+  "name": "bld-spelman",
+  "zone": "Little Margin streets",
+  "source": "Cleveland Museum of Art",
+  "title": "Solomon Clark Spelman and Martha W. Spelman in front of S.C. Spelman General Store, Hampden, MA",
+  "date": "c. 1852–55",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/2021.44/2021.44_web.jpg",
+  "page": "https://clevelandart.org/art/2021.44",
+  "size": {
+   "ok": true,
+   "bytes": 380412,
+   "type": "image/jpeg"
+  },
+  "file": "bld-spelman.jpg"
+ },
+ {
+  "name": "bld-colmar",
+  "zone": "Little Margin streets",
+  "source": "Cleveland Museum of Art",
+  "title": "Façade Alsacienne, Corps de Garde à Colmar",
+  "artist": "Adolphe Braun",
+  "date": "c. 1870s",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/2021.63/2021.63_web.jpg",
+  "page": "https://clevelandart.org/art/2021.63",
+  "size": {
+   "ok": true,
+   "bytes": 313283,
+   "type": "image/jpeg"
+  },
+  "file": "bld-colmar.jpg"
+ },
+ {
+  "name": "bld-stone-cottage",
+  "zone": "Little Margin streets",
+  "source": "Cleveland Museum of Art",
+  "title": "High Rock Tower and Stone Cottage, Lynn, Massachusetts",
+  "date": "c. 1862",
+  "licence": "CC0",
+  "url": "https://openaccess-cdn.clevelandart.org/2021.46/2021.46_web.jpg",
+  "page": "https://clevelandart.org/art/2021.46",
+  "size": {
+   "ok": true,
+   "bytes": 369948,
+   "type": "image/jpeg"
+  },
+  "file": "bld-stone-cottage.jpg"
+ },
+ {
+  "name": "car-two-cents",
+  "zone": "Traffic",
+  "source": "Wikimedia Commons",
+  "title": "Around the block for 2 cents (car)",
+  "artist": "Bain News Service",
+  "date": "c. 1910–15",
+  "licence": "Public domain",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/Around_the_block_for_2_cents_%28car%29_LOC_2163536408.jpg/960px-Around_the_block_for_2_cents_%28car%29_LOC_2163536408.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Around_the_block_for_2_cents_(car)_LOC_2163536408.jpg",
+  "size": {
+   "ok": true,
+   "bytes": 188623,
+   "type": "image/jpeg"
+  },
+  "file": "car-two-cents.jpg"
+ },
+ {
+  "name": "car-floors-truck",
+  "zone": "Traffic",
+  "source": "Wikimedia Commons",
+  "title": "Strom & Olsen Hardwood Floors, 12th Ave, Seattle, circa 1920 (MOHAI 9100)",
+  "date": "c. 1920",
+  "licence": "Public domain",
+  "url": "https://upload.wikimedia.org/wikipedia/commons/6/6c/Strom_%26_Olsen_Hardwood_Floors%2C_12th_Ave%2C_Seattle%2C_circa_1920_%28MOHAI_9100%29.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Strom_%26_Olsen_Hardwood_Floors,_12th_Ave,_Seattle,_circa_1920_(MOHAI_9100).jpg",
+  "size": {
+   "ok": true,
+   "bytes": 48009,
+   "type": "image/jpeg"
+  },
+  "file": "car-floors-truck.jpg"
+ },
+ {
+  "name": "car-delivery-trucks",
+  "zone": "Traffic",
+  "source": "Wikimedia Commons",
+  "title": "Crescent Manufacturing Company delivery trucks, Seattle, ca 1927 (MOHAI 4483)",
+  "date": "c. 1927",
+  "licence": "Public domain",
+  "url": "https://upload.wikimedia.org/wikipedia/commons/7/7c/Crescent_Manufacturing_Company_delivery_trucks%2C_Seattle%2C_ca_1927_%28MOHAI_4483%29.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Crescent_Manufacturing_Company_delivery_trucks,_Seattle,_ca_1927_(MOHAI_4483).jpg",
+  "size": {
+   "ok": true,
+   "bytes": 66637,
+   "type": "image/jpeg"
+  },
+  "file": "car-delivery-trucks.jpg"
+ },
+ {
+  "name": "car-ford-touring",
+  "zone": "Traffic",
+  "source": "Wikimedia Commons",
+  "title": "Ford Motor Co. Ford touring car at Library (of Congress, Washington, D.C.)",
+  "artist": "National Photo Company",
+  "date": "1920s",
+  "licence": "Public domain",
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4a/Ford_Motor_Co._Ford_touring_car_at_Library_%28of_Congress%2C_Washington%2C_D.C.%29_LCCN2016825520.jpg/960px-Ford_Motor_Co._Ford_touring_car_at_Library_%28of_Congress%2C_Washington%2C_D.C.%29_LCCN2016825520.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Ford_Motor_Co._Ford_touring_car_at_Library_(of_Congress,_Washington,_D.C.)_LCCN2016825520.jpg",
+  "size": {
+   "ok": true,
+   "bytes": 182466,
+   "type": "image/jpeg"
+  },
+  "file": "car-ford-touring.jpg"
  }
 ]

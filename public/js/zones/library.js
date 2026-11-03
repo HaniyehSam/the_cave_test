@@ -118,10 +118,14 @@ export default {
     { src: 'old-book', x: 700, y: 790, h: 54, rotate: -10, tape: 0 },
   ],
   finds: [
-    { id: 'color:sepia', x: 640, y: 780, clue: 'next to the inkwell' },
-    { id: 'mod:glow', x: 430, y: 820, hidden: 'candle', clue: 'it is too dark to read' },
+    { id: 'color:sepia', x: 640, y: 780 },
+    { id: 'mod:glow', x: 430, y: 820, hidden: 'candle' },
   ],
-  secrets: [{ id: 'candle', x: 500, y: 616, r: 24, amount: 25, reveal: flame, say: 'The candle catches, and fireflies come to see.' }],
+  secrets: [{ id: 'candle', x: 500, y: 616, r: 24, amount: 25, reveal: flame }],
+  ideas: [
+    { id: 'book', type: 'space', x: 420, y: 330, w: 190, h: 220, need: 260 },
+    { id: 'lantern', type: 'trace', shape: 'lantern', x: 520, y: 275, s: 0.9 },
+  ],
   residents: [
     {
       id: 'worm', name: 'The Librarian', x: 450, y: 840, w: 60, h: 60,

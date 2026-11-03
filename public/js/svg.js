@@ -37,7 +37,8 @@ export function label(x, y, text, { size = 11, anchor = 'start', spacing = 1.6, 
   return `<text x="${x}" y="${y}" font-size="${size}" text-anchor="${anchor}" letter-spacing="${spacing}" font-family="${family}" fill="${fill}" stroke="none"${turn}>${escape(text)}</text>`;
 }
 
-// Fill styles for shading. Hatch tones stay light so they never block the paint tin.
+// Fill styles. There is no shading texture: everything is a clean outline on a flat tone,
+// so people and things are easy to colour in. The old texture names map to flat tones.
 export const fill = {
   white: { fill: TONE.white },
   paper: { fill: TONE.paper },
@@ -45,22 +46,16 @@ export const fill = {
   mid: { fill: TONE.mid },
   shade: { fill: TONE.shade },
   ink: { fill: INK },
-  hatch: { fill: 'url(#hatch)' },
-  cross: { fill: 'url(#cross)' },
-  dots: { fill: 'url(#stipple)' },
+  hatch: { fill: TONE.white },
+  cross: { fill: TONE.light },
+  dots: { fill: TONE.white },
   none: { fill: 'none' },
 };
 
 const DEFS = `<defs>
-  <pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(40)">
-    <rect width="7" height="7" fill="${TONE.white}"/><path d="M0 0 V7" stroke="${TONE.hatch}" stroke-width="1"/>
-  </pattern>
-  <pattern id="cross" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(40)">
-    <rect width="7" height="7" fill="${TONE.light}"/><path d="M0 0 V7 M0 0 H7" stroke="${TONE.hatch}" stroke-width="1"/>
-  </pattern>
-  <pattern id="stipple" width="9" height="9" patternUnits="userSpaceOnUse">
-    <rect width="9" height="9" fill="${TONE.white}"/><circle cx="2" cy="2" r=".8" fill="${TONE.hatch}"/><circle cx="6.5" cy="6.5" r=".8" fill="${TONE.hatch}"/>
-  </pattern>
+  <pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="${TONE.white}"/></pattern>
+  <pattern id="cross" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="${TONE.light}"/></pattern>
+  <pattern id="stipple" width="9" height="9" patternUnits="userSpaceOnUse"><rect width="9" height="9" fill="${TONE.white}"/></pattern>
   <filter id="wash" x="-10%" y="-10%" width="120%" height="120%">
     <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4"/>
     <feDisplacementMap in="SourceGraphic" scale="14"/>
@@ -121,7 +116,7 @@ export function groundStrip(rnd, { crossing = null, manhole = null, cobbles = fa
   if (manhole != null) s += ellipse(manhole, GROUND + 110, 30, 9, fill.hatch) + ellipse(manhole, GROUND + 110, 22, 6);
   s += path(`M0 ${GROUND + 150} H${SECTION}`, { 'stroke-width': 2.4 });
   // Soil, with roots and pebbles that later lead underground.
-  s += rect(0, GROUND + 150, SECTION, SECTION - GROUND - 150, { ...fill.dots, ...bare });
+  s += rect(0, GROUND + 150, SECTION, SECTION - GROUND - 150, { ...fill.light, ...bare });
   for (let i = 0; i < 14; i++) {
     const x = rnd() * SECTION, y = GROUND + 175 + rnd() * 70;
     s += ellipse(x.toFixed(0), y.toFixed(0), (4 + rnd() * 7).toFixed(1), (3 + rnd() * 3).toFixed(1), fill.white);
@@ -132,7 +127,7 @@ export function groundStrip(rnd, { crossing = null, manhole = null, cobbles = fa
 // Underground zones: soil everywhere, with a cave carved out of it. `outline` is an open
 // path so the cave's tunnels can run off the section edge (y 640–760) into the next cave.
 export function cave(fillPath, outline, rnd) {
-  let s = rect(0, 0, SECTION, SECTION, { fill: 'url(#stipple)', stroke: 'none' });
+  let s = rect(0, 0, SECTION, SECTION, { fill: TONE.light, stroke: 'none' });
   for (let i = 0; i < 18; i++) {
     const x = rnd() * SECTION, y = rnd() * SECTION;
     s += ellipse(x.toFixed(0), y.toFixed(0), (4 + rnd() * 8).toFixed(1), (3 + rnd() * 4).toFixed(1), fill.white);

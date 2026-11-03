@@ -222,16 +222,17 @@ export default {
     { src: 'jar-blue', x: 266, y: 668, h: 62, rotate: 0, tape: 0 },
   ],
   finds: [
-    { id: 'mod:wiggle', x: 84, y: 548, clue: 'something wriggles in the apples' },
-    { id: 'color:marigold', x: 218, y: 554, clue: 'among the spices' },
-    { id: 'color:lantern', x: 352, y: 566, clue: 'on the noodle cart' },
-    { id: 'pattern:dots', x: 448, y: 612, clue: 'pinned to the cart' },
-    { id: 'pattern:stripes', x: 626, y: 624, clue: 'with the cloth' },
-    { id: 'color:teal', x: 884, y: 688, hidden: 'crystal', clue: 'ask the crystal ball' },
+    { id: 'mod:wiggle', x: 84, y: 548 },
+    { id: 'color:yellow', x: 218, y: 554 },
+    { id: 'color:blue', x: 884, y: 688, hidden: 'crystal' },
   ],
   secrets: [
-    { id: 'lanterns', x: big.x, y: big.y + 35, r: 34, amount: 40, reveal: glowing, say: 'The lanterns are glowing again.' },
-    { id: 'crystal', x: 850, y: 650, r: 16, amount: 20, reveal: vision, say: 'The crystal ball clears.' },
+    { id: 'lanterns', x: big.x, y: big.y + 35, r: 34, amount: 40, reveal: glowing },
+    { id: 'crystal', x: 850, y: 650, r: 16, amount: 20, reveal: vision },
+  ],
+  ideas: [
+    { id: 'fireworks', type: 'space', x: 60, y: 60, w: 300, h: 160, anim: 'twinkle', need: 260 },
+    { id: 'balloon', type: 'trace', shape: 'balloon', x: 760, y: 150, s: 0.9 },
   ],
   residents: [
     {

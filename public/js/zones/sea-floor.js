@@ -95,7 +95,7 @@ function alive(ctx, t, { warmth, has }) {
 export default {
   id: 'seafloor',
   name: 'The Drowned Garden',
-  col: 1,
+  col: 3,
   row: 1,
   art,
   wash: colourWash,
@@ -106,8 +106,12 @@ export default {
     { src: 'starfish', x: 330, y: 820, h: 100, rotate: -8, tape: 0 },
     { src: 'diving-helmet', x: 500, y: 604, h: 124, rotate: 0, tape: 0 },
   ],
-  finds: [{ id: 'pattern:scales', x: 600, y: 836, clue: 'among the rocks' }],
-  secrets: [{ id: 'clam', x: 200, y: 864, r: 30, amount: 40, reveal: pearl, say: 'The giant clam opens. There is a pearl inside!' }],
+  finds: [],
+  secrets: [{ id: 'clam', x: 200, y: 864, r: 30, amount: 40, reveal: pearl }],
+  ideas: [
+    { id: 'fish', type: 'trace', shape: 'fish', x: 780, y: 520, s: 1 },
+    { id: 'creature', type: 'space', x: 60, y: 580, w: 200, h: 190, anim: 'swim' },
+  ],
   residents: [
     {
       id: 'oona', name: 'Oona', x: 810, y: 846, w: 70, h: 80,

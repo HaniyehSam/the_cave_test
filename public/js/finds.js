@@ -1,6 +1,5 @@
-// Little collectable objects drawn on the canvas: paint jars, pattern cards and magic.
-import { COLORS, INK, PAPER } from './config.js';
-import { patternTile } from './paint.js';
+// Little collectable objects drawn on the canvas: paint jars, tools and magic.
+import { COLORS, PAINTS, INK, PAPER } from './config.js';
 
 function outline(ctx) {
   ctx.lineWidth = 1.7;
@@ -9,7 +8,7 @@ function outline(ctx) {
 }
 
 function jar(ctx, color) {
-  ctx.fillStyle = COLORS[color]?.hex || INK;
+  ctx.fillStyle = PAINTS[color]?.hex || INK;
   ctx.beginPath();
   ctx.roundRect(-12, -14, 24, 26, 5);
   ctx.fill();
@@ -29,44 +28,22 @@ function jar(ctx, color) {
   ctx.stroke();
 }
 
-function card(ctx, pattern, t) {
-  ctx.rotate(-0.15 + Math.sin(t / 900) * 0.04);
-  ctx.fillStyle = PAPER;
-  ctx.fillRect(-15, -20, 30, 38);
-  ctx.fillStyle = ctx.createPattern(patternTile(pattern, 'coral', 12), 'repeat');
-  ctx.fillRect(-11, -16, 22, 22);
-  ctx.strokeRect(-15, -20, 30, 38);
-  ctx.strokeRect(-11, -16, 22, 22);
+// A china mixing dish with three wells of paint.
+function dish(ctx) {
+  ctx.fillStyle = '#fffdf8';
   ctx.beginPath();
-  ctx.moveTo(-9, 12);
-  ctx.lineTo(9, 12);
-  ctx.stroke();
-}
-
-function tin(ctx) {
-  ctx.fillStyle = '#d9d4c7';
-  ctx.beginPath();
-  ctx.moveTo(-14, -12);
-  ctx.lineTo(14, -12);
-  ctx.lineTo(13, 14);
-  ctx.lineTo(-13, 14);
-  ctx.closePath();
+  ctx.ellipse(0, 2, 22, 13, 0, 0, Math.PI * 2);
   ctx.fill();
   ctx.stroke();
   ctx.beginPath();
-  ctx.ellipse(0, -12, 14, 4, 0, 0, Math.PI * 2);
-  ctx.fillStyle = COLORS.coral.hex;
-  ctx.fill();
+  ctx.ellipse(16, -6, 4, 3, 0, 0, Math.PI * 2);
   ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(0, -12, 17, Math.PI * 1.05, Math.PI * 1.95);
-  ctx.stroke();
-  ctx.fillStyle = COLORS.coral.hex;
-  ctx.beginPath();
-  ctx.moveTo(-6, -9);
-  ctx.quadraticCurveTo(-7, 4, -4, 5);
-  ctx.quadraticCurveTo(-1, 4, -2, -9);
-  ctx.fill();
+  [[-9, 0, PAINTS.red.hex], [3, 6, PAINTS.yellow.hex], [5, -4, PAINTS.blue.hex]].forEach(([x, y, c]) => {
+    ctx.fillStyle = c;
+    ctx.beginPath();
+    ctx.ellipse(x, y, 6, 4, 0, 0, Math.PI * 2);
+    ctx.fill();
+  });
 }
 
 function mirror(ctx, t) {
@@ -189,41 +166,19 @@ function fireflyJar(ctx, t) {
   }
 }
 
-// A twinkle so finds catch the eye in a black-and-white world.
-function twinkle(ctx, t, phase) {
-  const k = (Math.sin(t / 380 + phase) + 1) / 2;
-  ctx.save();
-  ctx.translate(16, -22);
-  ctx.rotate(t / 1400 + phase);
-  ctx.scale(0.5 + k * 0.6, 0.5 + k * 0.6);
-  ctx.fillStyle = COLORS.marigold.hex;
-  ctx.beginPath();
-  for (let i = 0; i < 8; i++) {
-    const r = i % 2 ? 2 : 8, a = (i * Math.PI) / 4;
-    ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
-  }
-  ctx.fill();
-  ctx.restore();
-}
-
 export function drawFind(ctx, find, t) {
   const [kind, key] = find.id.split(':');
   const phase = (find.wx * 0.013 + find.wy * 0.007) % 6.28;
   ctx.save();
   ctx.translate(find.wx, find.wy + Math.sin(t / 650 + phase) * 2.5);
   outline(ctx);
-  if (kind === 'color') jar(ctx, key);
-  else if (kind === 'pattern') card(ctx, key, t);
-  else if (key === 'fill') tin(ctx);
+  if (key === 'rainbow') ribbon(ctx, t);
+  else if (kind === 'color') jar(ctx, key);
+  else if (key === 'dish') dish(ctx);
   else if (key === 'mirror') mirror(ctx, t);
   else if (key === 'kaleido') kaleido(ctx, t);
   else if (key === 'wiggle') worm(ctx, t);
   else if (key === 'sprout') packet(ctx);
-  else if (key === 'rainbow') ribbon(ctx, t);
   else if (key === 'glow') fireflyJar(ctx, t);
-  ctx.restore();
-  ctx.save();
-  ctx.translate(find.wx, find.wy);
-  twinkle(ctx, t, phase);
   ctx.restore();
 }

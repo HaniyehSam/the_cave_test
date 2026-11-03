@@ -213,24 +213,24 @@ function alive(ctx, t, { warmth, has }) {
 export default {
   id: 'greenhouse',
   name: 'The Odd Greenhouse',
-  col: -1,
+  col: -2,
   row: 0,
   art,
   wash: colourWash,
   alive,
   photos: [{ src: 'cherries', x: 808, y: 500, h: 92, rotate: 4, tape: 2 }],
   finds: [
-    { id: 'color:moss', x: 742, y: 596, clue: 'on the potting bench' },
-    { id: 'mod:sprout', x: 810, y: 568, clue: 'on the potting bench' },
-    { id: 'color:lavender', x: 720, y: 346, clue: 'in a hanging basket' },
-    { id: 'pattern:waves', x: 380, y: 676, clue: 'by the pond' },
-    { id: 'pattern:checks', x: 130, y: 676, clue: 'at the sunflower’s feet' },
-    { id: 'color:pond', x: 572, y: 680, hidden: 'pond', clue: 'the pond has lost its colour' },
-    { id: 'mod:kaleido', x: 480, y: 330, hidden: 'rose', clue: 'high up in the glass' },
+    { id: 'mod:sprout', x: 810, y: 568 },
+    { id: 'mod:kaleido', x: 480, y: 330, hidden: 'rose' },
   ],
   secrets: [
-    { id: 'pond', x: 470, y: 690, r: 40, amount: 60, reveal: ripples, say: 'Fish! The pond is alive.' },
-    { id: 'rose', x: 480, y: 250, r: 40, amount: 60, reveal: rays, say: 'Light pours through the rose window.' },
+    { id: 'pond', x: 470, y: 690, r: 40, amount: 60, reveal: ripples },
+    { id: 'rose', x: 480, y: 250, r: 40, amount: 60, reveal: rays },
+  ],
+  ideas: [
+    { id: 'butterfly', type: 'trace', shape: 'butterfly', x: 330, y: 330, s: 0.8 },
+    { id: 'glass', type: 'hidden', x: 548, y: 300, w: 120, h: 130, photo: 'cherry-branch' },
+    { id: 'sky', type: 'space', x: 600, y: 30, w: 260, h: 140, anim: 'fly' },
   ],
   residents: [
     {

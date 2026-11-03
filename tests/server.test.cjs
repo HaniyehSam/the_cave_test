@@ -27,7 +27,7 @@ test('serves the world and refuses to leave public/', async () => {
     // Nothing from the project root (the server source, its package.json) may leak out.
     for (const sneaky of ['/../server.cjs', '/..%2fserver.cjs', '/..%5cserver.cjs', '/%2e%2e/package.json', '/js/../../server.cjs']) {
       const res = await get(port, sneaky);
-      assert.doesNotMatch(res.body, /createServer|"endless-canvas"/, sneaky);
+      assert.doesNotMatch(res.body, /createServer|"paper-world"/, sneaky);
     }
   } finally {
     server.close();

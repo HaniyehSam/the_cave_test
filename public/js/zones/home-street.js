@@ -134,7 +134,7 @@ function cafe() {
   s += rect(592, 652, 170, 40, fill.light);
   s += rect(782, 578, 60, 120, fill.white) + circle(812, 612, 14) + circle(832, 650, 3, fill.ink);
   // Chalkboard sign on the pavement.
-  s += path('M866 698 L878 620 H916 L928 698 M872 662 h50', fill.white) + label(880, 644, 'TODAY:', { size: 8, spacing: 1 }) + label(880, 656, 'colour', { size: 9, serif: true, spacing: 0 });
+  s += path('M866 698 L878 620 H916 L928 698 M872 662 h50', fill.white) + label(880, 644, 'TODAY:', { size: 8, spacing: 1 }) + label(880, 656, 'drawing', { size: 9, serif: true, spacing: 0 });
   return s;
 }
 
@@ -267,17 +267,20 @@ export default {
   alive,
   photos: [{ src: 'teapot-blue', x: 738, y: 628, h: 46, rotate: 2, tape: 0 }],
   finds: [
-    { id: 'color:coral', x: 352, y: 216, clue: 'up in the attic' },
-    { id: 'tool:fill', x: 214, y: 680, clue: 'in the kitchen' },
-    { id: 'mod:mirror', x: 196, y: 362, clue: 'in the bathroom' },
-    { id: 'color:blush', x: 272, y: 426, hidden: 'portrait', clue: 'someone is missing' },
-    { id: 'pattern:stars', x: 200, y: 236, hidden: 'window', clue: 'look up' },
+    { id: 'color:red', x: 352, y: 216 },
+    { id: 'tool:dish', x: 214, y: 680 },
+    { id: 'mod:mirror', x: 196, y: 362 },
   ],
   secrets: [
-    { id: 'portrait', x: 304, y: 367, r: 30, amount: 40, reveal: portrait, say: 'Someone was waiting in that frame.' },
-    { id: 'window', x: 240, y: 228, r: 20, amount: 30, reveal: stars, say: 'Stars came out over the roof.' },
-    { id: 'record', x: 394, y: 638, r: 18, amount: 20, reveal: () => '', say: 'The record player starts to spin.' },
-    { id: 'awning', x: 750, y: 542, r: 60, amount: 140, reveal: lights, say: 'The Paper Cup is open!' },
+    { id: 'portrait', x: 304, y: 367, r: 30, amount: 40, reveal: portrait },
+    { id: 'window', x: 240, y: 228, r: 20, amount: 30, reveal: stars },
+    { id: 'record', x: 394, y: 638, r: 18, amount: 20, reveal: () => '' },
+    { id: 'awning', x: 750, y: 542, r: 60, amount: 140, reveal: lights },
+  ],
+  ideas: [
+    { id: 'kite', type: 'trace', shape: 'kite', x: 520, y: 228, s: 0.8 },
+    { id: 'sky', type: 'space', x: 615, y: 172, w: 245, h: 148, anim: 'fly', need: 240 },
+    { id: 'car', type: 'trace', shape: 'car', x: 250, y: 800, s: 0.85 },
   ],
   residents: [
     {
@@ -286,8 +289,8 @@ export default {
         ...(has('record') ? ['My old record! I have not danced since 1974.'] : []),
         ...(warmth > 0.5 ? ['Listen to that. The street is humming again.', 'Have you been to the market next door? Lanterns, dear. Lanterns.'] : []),
         'Oh! A new neighbour with a pencil. Our street has gone ever so pale.',
-        'Paint anything you like. Things round here wake up when they get some colour.',
-        'I lost my good paint tin. Kitchen, maybe? My knees do not do kitchens.',
+        'Draw anything you like. Things round here wake up when somebody draws them.',
+        'I left my mixing dish in the kitchen. Two paints in, a new colour out. Like baking.',
       ],
     },
     {

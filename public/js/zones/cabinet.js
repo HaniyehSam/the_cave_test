@@ -125,7 +125,7 @@ function alive(ctx, t, { warmth, has }) {
 export default {
   id: 'cabinet',
   name: 'The Cabinet of Curiosities',
-  col: -2,
+  col: -5,
   row: 0,
   art,
   wash: colourWash,
@@ -139,14 +139,18 @@ export default {
     { src: 'tiny-shoe', x: 252, y: 552, h: 56, rotate: -3, tape: 0 },
   ],
   finds: [
-    { id: 'color:rust', x: 548, y: 368, clue: 'on the top shelf' },
-    { id: 'mod:rainbow', x: 853, y: 660, hidden: 'prism', clue: 'something under glass' },
+    { id: 'color:rainbow', x: 853, y: 660, hidden: 'prism' },
   ],
-  secrets: [{ id: 'prism', x: 853, y: 572, r: 22, amount: 30, reveal: beams, say: 'The prism splits the light into colours.' }],
+  secrets: [{ id: 'prism', x: 853, y: 572, r: 22, amount: 30, reveal: beams }],
+  ideas: [
+    { id: 'escaped', type: 'space', x: 50, y: 30, w: 250, h: 130, anim: 'fly' },
+    { id: 'plane', type: 'trace', shape: 'plane', x: 780, y: 110, s: 0.8 },
+    { id: 'label', type: 'hidden', x: 790, y: 378, w: 96, h: 92, photo: 'key' },
+  ],
   residents: [{
     id: 'hoot', name: 'Professor Hoot', x: 774, y: 632, w: 60, h: 100,
     lines: ({ warmth, has }) => [
-      ...(has('prism') ? ['Splendid! A rainbow, filed under R. Take the ribbon; it has been waiting for a hand like yours.'] : []),
+      ...(has('prism') ? ['Splendid! A rainbow, filed under R. Take it with you: it is a paint now, and a very good one.'] : []),
       ...(warmth > 0.5 ? ['The labels are legible again. I could weep.'] : []),
       'Welcome to the Cabinet. Everything here is real, you know. Every single thing.',
       'Tap anything with the little hand and I will tell you where it came from.',

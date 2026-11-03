@@ -1,24 +1,24 @@
 // Pointer, wheel and keyboard: draw with one pointer, move with two fingers,
-// the middle button, the hand tool or space. Scroll moves the canvas at a fixed scale.
+// the middle button, the hand tool or space. The zoom is locked: pinching only moves,
+// and the browser's own zoom (ctrl+wheel, ctrl +/-) is blocked.
 import { MODS } from './config.js';
-import { state, markDirty } from './state.js';
+import { state, markDirty, clampCamera } from './state.js';
 import { canvas, toWorld } from './render.js';
 import { commit, pick, undo, redo } from './actions.js';
-import { fillAt } from './fill.js';
-import { loadFill } from './paint.js';
+import { cutsFor } from './paint.js';
 import { save } from './store.js';
-import { update, toast, hideBubble, anyDialogOpen, openJournalDialog } from './ui.js';
+import { update, hideBubble, anyDialogOpen, openDish, toggleTray, closeTrays, pickColour } from './ui.js';
 
 const pointers = new Map();
 let space = false;
-let gesture = null;
+let pinch = null;
 
 const round = (v) => Math.round(v * 10) / 10;
 const touches = () => [...pointers.values()].filter((p) => p.type === 'touch');
 
 function pan(dx, dy) {
-  state.camera.x -= dx / state.camera.zoom;
-  state.camera.y -= dy / state.camera.zoom;
+  const cam = state.camera;
+  state.camera = clampCamera({ ...cam, x: cam.x - dx / cam.zoom, y: cam.y - dy / cam.zoom });
   markDirty();
   save();
 }
@@ -31,22 +31,20 @@ function newStroke(p) {
   return {
     kind: 'line', color: state.color, size: erase ? state.size * 2 + 6 : state.size, erase,
     points: [[round(p.x), round(p.y)]], sym, fx, seed: Math.floor(Math.random() * 100), t0: Date.now(),
-    rainbow: !erase && state.mods.rainbow, glow: !erase && state.mods.glow,
+    glow: !erase && state.mods.glow,
   };
 }
 
 function finishStroke() {
   const s = state.active;
   state.active = null;
-  if (s) commit(s);
-}
-
-async function fill(sx, sy) {
-  const w = toWorld(sx, sy);
-  const result = await fillAt(w.x, w.y);
-  if (result.error) return toast(result.error, 3000);
-  await loadFill(result.stroke);
-  commit(result.stroke, result.contains);
+  if (!s) return;
+  if (s.erase) {
+    // Drawings that move are taken away whole by the eraser.
+    const cuts = cutsFor(s, Date.now());
+    if (cuts.length) s.cuts = cuts;
+  }
+  commit(s);
 }
 
 function onDown(e) {
@@ -60,9 +58,9 @@ function onDown(e) {
   const fingers = touches();
   if (p.type === 'touch' && fingers.length > 1) {
     state.active = null;          // the first finger was the start of a gesture, not a line
-    for (const f of fingers) f.action = 'gesture';
+    for (const f of fingers) f.action = 'pinch';
     const [a, b] = fingers;
-    gesture = { cx: (a.x + b.x) / 2, cy: (a.y + b.y) / 2 };
+    pinch = { cx: (a.x + b.x) / 2, cy: (a.y + b.y) / 2 };
     markDirty();
     return;
   }
@@ -71,16 +69,10 @@ function onDown(e) {
     canvas.classList.add('dragging');
     return;
   }
+  // Always start a line: dragging over people colours them in. A tap on someone talks instead (see onUp).
   const w = toWorld(e.clientX, e.clientY);
-  if (pick(w.x, w.y, 30 / state.camera.zoom)) {
-    p.action = 'picked';
-    return;
-  }
   hideBubble();
-  if (state.tool === 'fill') {
-    p.action = 'fill';
-    return;
-  }
+  closeTrays();
   state.active = newStroke(w);
   markDirty();
 }
@@ -92,12 +84,12 @@ function onMove(e) {
   const dx = e.clientX - p.x, dy = e.clientY - p.y;
   p.x = e.clientX;
   p.y = e.clientY;
-  if (p.action === 'gesture') {
+  if (p.action === 'pinch') {
     const [a, b] = touches();
-    if (!a || !b || !gesture) return;
+    if (!a || !b || !pinch) return;
     const cx = (a.x + b.x) / 2, cy = (a.y + b.y) / 2;
-    pan(cx - gesture.cx, cy - gesture.cy);
-    gesture = { cx, cy };
+    pan(cx - pinch.cx, cy - pinch.cy);
+    pinch = { cx, cy };
     return;
   }
   if (p.action === 'pan') return pan(dx, dy);
@@ -116,15 +108,15 @@ function onUp(e, cancelled = false) {
   pointers.delete(e.pointerId);
   const still = Math.hypot(p.x - p.sx, p.y - p.sy) < 8;
   if (p.action === 'draw') {
-    if (cancelled) state.active = null;
-    else finishStroke();
-  } else if (p.action === 'fill' && still && !cancelled) fill(p.x, p.y);
-  else if (p.action === 'pan' && still && !cancelled) {
-    // With the hand tool, a tap on a photo tells you where it came from.
     const w = toWorld(p.x, p.y);
-    pick(w.x, w.y, 30 / state.camera.zoom, { photos: true });
-  } else if (p.action === 'gesture') {
-    gesture = null;
+    if (cancelled) state.active = null;
+    else if (still && pick(w.x, w.y, 30 / state.camera.zoom)) state.active = null;
+    else finishStroke();
+  } else if (p.action === 'pan' && still && !cancelled) {
+    const w = toWorld(p.x, p.y);
+    pick(w.x, w.y, 30 / state.camera.zoom);
+  } else if (p.action === 'pinch') {
+    pinch = null;
     for (const f of touches()) f.action = 'pan';   // keep moving with the finger that stays
   }
   if (!pointers.size) canvas.classList.remove('dragging');
@@ -133,16 +125,21 @@ function onUp(e, cancelled = false) {
 
 function onWheel(e) {
   e.preventDefault();
-  if (anyDialogOpen()) return;
+  if (anyDialogOpen() || e.ctrlKey || e.metaKey) return;
   const unit = e.deltaMode === 1 ? 18 : e.deltaMode === 2 ? state.view.height : 1;
   const sideways = e.shiftKey && !e.deltaX;
   pan(-(sideways ? e.deltaY : e.deltaX) * unit, -(sideways ? 0 : e.deltaY) * unit);
 }
 
-const toolKeys = { b: 'pencil', f: 'fill', e: 'eraser' };
-const modKeys = { m: 'mirror', k: 'kaleido', w: 'wiggle', g: 'sprout', r: 'rainbow', l: 'glow' };
+const toolKeys = { b: 'pencil', e: 'eraser' };
+const modKeys = { m: 'mirror', k: 'kaleido', w: 'wiggle', g: 'sprout', l: 'glow' };
+
+// The browser's zoom keys: ctrl (or cmd) with +, -, = or 0, on the main keys or the number pad.
+const zoomKeys = new Set(['+', '-', '=', '_', '0', 'add', 'subtract']);
+const zoomCodes = new Set(['Equal', 'Minus', 'Digit0', 'NumpadAdd', 'NumpadSubtract', 'Numpad0']);
 
 function onKey(e) {
+  if ((e.ctrlKey || e.metaKey) && (zoomKeys.has(e.key.toLowerCase()) || zoomCodes.has(e.code))) return e.preventDefault();
   if (anyDialogOpen() || e.altKey) return;
   const k = e.key.toLowerCase();
   if ((e.ctrlKey || e.metaKey) && k === 'z') {
@@ -159,7 +156,15 @@ function onKey(e) {
     if (!space) { space = true; finishStroke(); canvas.classList.add('moving'); }
     return;
   }
-  if (k === 'escape') return hideBubble();
+  if (k === 'escape') {
+    closeTrays();
+    return hideBubble();
+  }
+  if (k === 'x' && state.found.has('tool:dish')) return openDish();
+  if (k === 'c') return toggleTray('colour');
+  if (k === 'i') return document.getElementById('ideaBtn').click();
+  if (k === 'q') return toggleTray('magic');
+  if (/^[1-9]$/.test(k)) return pickColour(Number(k) - 1);
   if (toolKeys[k] && state.found.has(`tool:${toolKeys[k]}`)) {
     state.tool = toolKeys[k];
     state.moving = false;
@@ -168,7 +173,6 @@ function onKey(e) {
     return;
   } else if (k === 'h') state.moving = !state.moving;
   else if (k === 's') return document.getElementById('sizeBtn').click();
-  else if (k === 'j') return openJournalDialog();
   else if (k.startsWith('arrow')) {
     e.preventDefault();
     const step = 120;
@@ -186,6 +190,10 @@ export function initInput() {
   canvas.addEventListener('lostpointercapture', (e) => onUp(e, true));
   canvas.addEventListener('wheel', onWheel, { passive: false });
   canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+  // Ctrl+wheel (and trackpad pinch, which arrives as one) anywhere on the page, not just the canvas.
+  addEventListener('wheel', (e) => (e.ctrlKey || e.metaKey) && e.preventDefault(), { passive: false });
+  // Safari's own pinch-to-zoom.
+  for (const type of ['gesturestart', 'gesturechange']) document.addEventListener(type, (e) => e.preventDefault());
   addEventListener('keydown', onKey);
   addEventListener('keyup', (e) => {
     if (e.key === ' ') {
